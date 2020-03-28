@@ -1,12 +1,15 @@
 import React from "react";
+import { Auth } from "aws-amplify";
+import Button from '@material-ui/core/Button';
 
-function LogoutButton(props) {
-  console.log(props);
+function LogoutButton({auth}) {
+  const onClick = async() => {
+    await Auth.signOut();
+    auth.userHasAuthenticated(false)
+  }
 
   return (
-    <div className="logout-button" onClick={() => props.userHasAuthenticated(false)}>
-      Logout
-    </div>
+    <Button color="inherit" onClick={onClick}>Logout</Button>
   );
 }
 
