@@ -126,6 +126,9 @@ export default function SignUp(props) {
         <form className={classes.form} onSubmit={submitConfirmation}>
           <Grid container spacing={2}>
             <Grid item xs={12}>
+            If you leave this page you will have to re-register and get a new code.
+            </Grid>
+            <Grid item xs={12}>
               <TextField
                 name="confirmationCode"
                 variant="outlined"
@@ -209,7 +212,7 @@ export default function SignUp(props) {
               />
             </Grid>
               <Grid item xs={12}>
-                  Passwords must be at least 6 characters in length. <br/>
+                  Passwords must be at least 8 characters in length. <br/>
                   A minimum of 1 upper case letter and special character.
               </Grid>
             <Grid item xs={12}>
