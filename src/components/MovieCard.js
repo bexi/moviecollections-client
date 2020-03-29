@@ -52,9 +52,9 @@ export default function MediaCard({ title }) {
         </CardContent>
       </CardActionArea>
       <CardActions>
-        <Button size="small" color="primary">
+        {false && <Button size="small" color="primary">
           Add to watched items
-        </Button>
+        </Button>}
       </CardActions>
     </Card>
   );

@@ -15,6 +15,7 @@ import AccountCirle from '@material-ui/icons/AccountCircle';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
+import Switch from '@material-ui/core/Switch';
 
 import AddWatchlistItem from '../components/addItem';
 import MovieCard from '../components/MovieCard'
@@ -56,6 +57,10 @@ function Main(props) {
   const [watchListItems, setWatchListItems] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [addItemCallback, setAddItemCallback] = useState(false);
+  const [state, setState] = useState({
+    checkedA: true,
+    checkedB: true,
+  });
 
   useEffect(() => {
     async function onLoad() {
@@ -91,12 +96,34 @@ function Main(props) {
 
   const classes = useStyles();
 
+  const handleChange = (event) => {
+    setState({ ...state, [event.target.name]: event.target.checked });
+  };
+
+  const WatchlistSwitch = (
+    <Grid item xs={12} className={classes.tableRow} >
+      <Grid component="label" container alignItems="center" spacing={1} className={classes.tableRow}>
+        <Grid item>Watchlist</Grid>
+        <Grid item>
+          <Switch
+          checked={state.checkedA}
+          onChange={handleChange}
+          name="checkedA"
+          inputProps={{ 'aria-label': 'secondary checkbox' }}
+          />
+        </Grid>
+        <Grid item>Seen movies</Grid>
+      </Grid>
+    </Grid>
+  );
+
   const MainContent = (
     <Container component="main" maxWidth="md">
       <CssBaseline />
       <AddWatchlistItem setAddItemCallback={setAddItemCallback} addItemCallback={addItemCallback}/>
       <div className={classes.paper}>
           <Grid container spacing={2}>
+
             {pairedItems.map((pair) => (
               <Grid item xs={12} className={classes.tableRow}>
                 <Grid container spacing={1}>
