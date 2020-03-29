@@ -4,11 +4,13 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 ## Features 
 * Think about UX - should movies/series be seperated or not 
-* View (v1) for showing the users movies (watchlist and seen)
-* View (v1) to show search results from OMDB (with button to add movie/serie to DynamoDB table)
-* Search bar with connection to OMDB 
-* Setup connection to Lambda/ApiGateway so requests can be done
+* Update movielist with new data from OMDB (image, description etc)
+* Connect search bar to OMDB 
+* Switch for showing if a movie is watched or not
+* Delete movie from movie list
 
+* Be able to add a movie title and view it in the my movie list - done 
+* Setup connection to Lambda/ApiGateway so requests can be done - done 
 * Sign in (aws cognito) - done 
 * Sign up (aws cognito) - done 
 * Navigation bar/menu - done 
