@@ -3,12 +3,14 @@
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Features 
+* Make the app more mobile friendly
+* Add user feedback when loading (ex deleting or adding movie item)
 * Think about UX - should movies/series be seperated or not 
 * Update movielist with new data from OMDB (image, description etc)
 * Connect search bar to OMDB 
 * Switch for showing if a movie is watched or not
-* Delete movie from movie list
 
+* Delete movie from movie list - done 
 * Be able to add a movie title and view it in the my movie list - done 
 * Setup connection to Lambda/ApiGateway so requests can be done - done 
 * Sign in (aws cognito) - done 
