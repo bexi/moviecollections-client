@@ -56,6 +56,7 @@ function Main(props) {
   const [watchListItems, setWatchListItems] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [addItemCallback, setAddItemCallback] = useState(false);
+  const [deletingCallback, setDeletingCallback] = useState(false);
   const [state, setState] = useState({
     checkedA: true,
     checkedB: true,
@@ -77,7 +78,7 @@ function Main(props) {
         setIsLoading(false);
       }
       onLoad();
-  }, [props.isAuthenticated, addItemCallback]);
+  }, [props.isAuthenticated, addItemCallback, deletingCallback]);
 
   function loadWatchList() {
     return API.get("moviecollections-api", "/usermovies");
@@ -126,8 +127,22 @@ function Main(props) {
             {pairedItems.map((pair) => (
               <Grid item xs={12} className={classes.tableRow}>
                 <Grid container spacing={1}>
-                  <Grid item xs={6} className={classes.movieRow}><MovieCard title={pair[0].content} /></Grid>
-                  { pair[1] && <Grid item xs={6} className={classes.movieRow}><MovieCard title={pair[1].content} /></Grid>}
+                  <Grid item xs={6} className={classes.movieRow}>
+                    <MovieCard
+                      title={pair[0].content}
+                      movieId={pair[0].movieId}
+                      deletingCallback={deletingCallback}
+                      setDeletingCallback={setDeletingCallback}
+                      />
+                  </Grid>
+                  { pair[1] && <Grid item xs={6} className={classes.movieRow}>
+                    <MovieCard
+                      title={pair[1].content}
+                      movieId={pair[0].movieId}
+                      deletingCallback={deletingCallback}
+                      setDeletingCallback={setDeletingCallback}
+                      />
+                    </Grid>}
                 </Grid>
               </Grid>
             ))}

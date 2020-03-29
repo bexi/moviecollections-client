@@ -10,6 +10,7 @@ import Typography from '@material-ui/core/Typography';
 import CardHeader from '@material-ui/core/CardHeader';
 import MoreVertIcon from '@material-ui/icons/DeleteOutlined';
 import IconButton from '@material-ui/core/IconButton';
+import { API } from "aws-amplify";
 
 const img = require('../static/example-movie-image.jpg');
 
@@ -22,14 +23,31 @@ const useStyles = makeStyles({
   },
 });
 
-export default function MediaCard({ title }) {
+export default function MediaCard({ title, movieId, deletingCallback, setDeletingCallback }) {
+
+  function deleteNote() {
+    return API.del("moviecollections-api", `/usermovie/${movieId}`);
+  }
+
+  async function handleDelete(event) {
+    console.log('delete');
+    event.preventDefault();
+
+    try {
+      await deleteNote();
+      setDeletingCallback(!deletingCallback);
+    } catch (e) {
+      alert(e);
+    }
+  }
+
   const classes = useStyles();
 
   return (
     <Card className={classes.root}>
       <CardHeader
        action={
-         <IconButton aria-label="delete">
+         <IconButton aria-label="delete" onClick={handleDelete}>
            <MoreVertIcon />
          </IconButton>
        }
