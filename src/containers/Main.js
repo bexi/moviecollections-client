@@ -53,12 +53,11 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function Main(props) {
-  //const [watchListItems, setWatchListItems] = useState([]);
+  const [watchListItems, setWatchListItems] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [addItemCallback, setAddItemCallback] = useState(false);
 
-  const watchListItems = [{content: 'movie1'},{content: 'movie1'},{content: 'movie1'}];
-
-  /*useEffect(() => {
+  useEffect(() => {
     async function onLoad() {
       if (!props.isAuthenticated) {
         return;
@@ -73,30 +72,39 @@ function Main(props) {
 
         setIsLoading(false);
       }
-
       onLoad();
-  }, [props.isAuthenticated]);*/
+  }, [props.isAuthenticated, addItemCallback]);
 
   function loadWatchList() {
     return API.get("moviecollections-api", "/usermovies");
   }
 
+  const pairWatchlistItems = (items) => {
+    let paired = [];
+    for(let i=0; i < (items.length ); i=i+2){
+      paired[i] = [items[i], items[i+1]];
+    }
+    return paired;
+  }
+
+  const pairedItems = pairWatchlistItems(watchListItems);
+
   const classes = useStyles();
 
-  console.log(props);
-  console.log('watchlist', watchListItems);
   const MainContent = (
     <Container component="main" maxWidth="md">
       <CssBaseline />
-      <AddWatchlistItem />
+      <AddWatchlistItem setAddItemCallback={setAddItemCallback} addItemCallback={addItemCallback}/>
       <div className={classes.paper}>
           <Grid container spacing={2}>
-            <Grid item xs={12} className={classes.tableRow}>
-              <Grid container spacing={1}>
-                <Grid item xs={6} className={classes.movieRow}><MovieCard /></Grid>
-                <Grid item xs={6} className={classes.movieRow}><MovieCard /></Grid>
+            {pairedItems.map((pair) => (
+              <Grid item xs={12} className={classes.tableRow}>
+                <Grid container spacing={1}>
+                  <Grid item xs={6} className={classes.movieRow}><MovieCard title={pair[0].content} /></Grid>
+                  { pair[1] && <Grid item xs={6} className={classes.movieRow}><MovieCard title={pair[1].content} /></Grid>}
+                </Grid>
               </Grid>
-            </Grid>
+            ))}
           </Grid>
       </div>
     </Container>

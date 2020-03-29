@@ -22,7 +22,7 @@ const useStyles = makeStyles({
   },
 });
 
-export default function MediaCard() {
+export default function MediaCard({ title }) {
   const classes = useStyles();
 
   return (
@@ -33,7 +33,7 @@ export default function MediaCard() {
            <MoreVertIcon />
          </IconButton>
        }
-       title="Movie Title"
+       title={title}
        />
       <CardActionArea>
         <CardMedia
