@@ -1,6 +1,6 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Redirect } from "react-router-dom";
-import { Auth } from "aws-amplify";
+import { Auth, API } from "aws-amplify";
 
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
@@ -16,6 +16,9 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 
+import AddWatchlistItem from '../components/addItem';
+import MovieCard from '../components/MovieCard'
+
 const useStyles = makeStyles((theme) => ({
   paper: {
     marginTop: theme.spacing(2),
@@ -23,7 +26,7 @@ const useStyles = makeStyles((theme) => ({
     flexDirection: 'column',
     alignItems: 'center',
     backgroundColor: theme.palette.paper.main,
-    minHeight: '85vh',
+    minHeight: '75vh',
   },
   avatar: {
     margin: theme.spacing(1),
@@ -36,11 +39,13 @@ const useStyles = makeStyles((theme) => ({
   submit: {
     margin: theme.spacing(3, 0, 2),
   },
-  movieRow: {
-    minHeight: '100px',
-    height: '15vh',
+  tableRow: {
     margin: theme.spacing(1, 1, 0),
-    backgroundColor:'red',
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+  },
+  movieRow: {
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
@@ -48,22 +53,49 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function Main(props) {
+  //const [watchListItems, setWatchListItems] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+
+  const watchListItems = [{content: 'movie1'},{content: 'movie1'},{content: 'movie1'}];
+
+  /*useEffect(() => {
+    async function onLoad() {
+      if (!props.isAuthenticated) {
+        return;
+      }
+
+      try {
+        const items = await loadWatchList();
+        setWatchListItems(items);
+      } catch (e) {
+        alert(e);
+      }
+
+        setIsLoading(false);
+      }
+
+      onLoad();
+  }, [props.isAuthenticated]);*/
+
+  function loadWatchList() {
+    return API.get("moviecollections-api", "/usermovies");
+  }
+
   const classes = useStyles();
 
   console.log(props);
+  console.log('watchlist', watchListItems);
   const MainContent = (
     <Container component="main" maxWidth="md">
       <CssBaseline />
+      <AddWatchlistItem />
       <div className={classes.paper}>
           <Grid container spacing={2}>
-            <Grid item xs={12} className={classes.movieRow}>
-              <Box height="100%" style={{alignText: 'center'}}>Movie 1</Box>
-            </Grid>
-            <Grid item xs={12} className={classes.movieRow}>
-              Movie 2
-            </Grid>
-            <Grid item xs={12} className={classes.movieRow}>
-              Movie 3
+            <Grid item xs={12} className={classes.tableRow}>
+              <Grid container spacing={1}>
+                <Grid item xs={6} className={classes.movieRow}><MovieCard /></Grid>
+                <Grid item xs={6} className={classes.movieRow}><MovieCard /></Grid>
+              </Grid>
             </Grid>
           </Grid>
       </div>

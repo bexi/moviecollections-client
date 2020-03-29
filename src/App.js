@@ -6,8 +6,9 @@ import Navigation from './containers/Navigation';
 import Routes from './routes';
 
 function App() {
+  const debug = false;
   const [isAuthenticating, setIsAuthenticating] = useState(true);
-  const [isAuthenticated, userHasAuthenticated] = useState(false);
+  const [isAuthenticated, userHasAuthenticated] = useState(debug);
 
   const onLoad = async () => {
       try{
