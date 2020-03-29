@@ -4,6 +4,7 @@ import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import Login from './containers/Login';
 import Signup from './containers/Signup';
 import Main from './containers/Main';
+import Browse from './containers/Browse';
 import AppliedRoute from "./components/AppliedRoute";
 
 function Routes({ auth }) {
@@ -12,6 +13,7 @@ function Routes({ auth }) {
       <Switch>
         <AppliedRoute exact path="/login" component={Login} auth={auth} />
         <AppliedRoute exact path="/signup" component={Signup} auth={auth} />
+        <AppliedRoute exact path="/browse" component={Browse} auth={auth} />
         <AppliedRoute exact path="/" component={Main} auth={auth} />
         <Route component={() => (<div>404 not found</div>)} />
       </Switch>

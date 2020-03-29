@@ -29,8 +29,8 @@ const Navigation = ({ auth }) => {
 
   const AuthedNavMenu = (
     <>
-    <Button color="inherit" type='a' href='/browse-movies'>Browse</Button>
-    <Button color="inherit" type='a' href='/my-movies'>My Movies</Button>
+    <Button color="inherit" type='a' href='/browse'>Browse</Button>
+    <Button color="inherit" type='a' href='/'>My Movies</Button>
     <LogoutButton auth={auth}/>
     </>
   );
