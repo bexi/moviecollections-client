@@ -16,7 +16,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import Switch from '@material-ui/core/Switch';
 
-import AddWatchlistItem from '../components/addItem';
+import AddWatchlistItem from '../components/AddItem';
 import MovieCard from '../components/MovieCard'
 
 const useStyles = makeStyles((theme) => ({

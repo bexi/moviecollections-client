@@ -38,6 +38,7 @@ export default function AddWatchlistItem( props ) {
     try {
       await createNote({ content: watchlistItem });
       props.setAddItemCallback(!props.addItemCallback);
+      setWatchlistItem('');
     } catch (e) {
       alert(e);
       setIsLoading(false);
