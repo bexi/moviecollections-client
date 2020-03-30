@@ -2,19 +2,20 @@
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-## Features 
-* Think about UX - should movies/series be seperated or not 
+## Features
+* Think about UX - should movies/series be seperated or not
 * Update movielist with new data from OMDB (image, description etc)
-* Connect search bar to OMDB 
+* Connect search bar to OMDB
 * Switch for showing if a movie is watched or not
 * Delete movie from movie list
+* Add tests 
 
-* Be able to add a movie title and view it in the my movie list - done 
-* Setup connection to Lambda/ApiGateway so requests can be done - done 
-* Sign in (aws cognito) - done 
-* Sign up (aws cognito) - done 
-* Navigation bar/menu - done 
-* App shell - done 
+* Be able to add a movie title and view it in the my movie list - done
+* Setup connection to Lambda/ApiGateway so requests can be done - done
+* Sign in (aws cognito) - done
+* Sign up (aws cognito) - done
+* Navigation bar/menu - done
+* App shell - done
 
 ## Available Scripts
 

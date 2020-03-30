@@ -24,15 +24,14 @@ const useStyles = makeStyles({
 });
 
 export default function MediaCard({ title, movieId, deletingCallback, setDeletingCallback }) {
+  const classes = useStyles();
 
-  function deleteNote() {
+  const deleteNote = () => {
     return API.del("moviecollections-api", `/usermovie/${movieId}`);
   }
 
-  async function handleDelete(event) {
-    console.log('delete');
+  const handleDelete = async(event) => {
     event.preventDefault();
-
     try {
       await deleteNote();
       setDeletingCallback(!deletingCallback);
@@ -40,8 +39,6 @@ export default function MediaCard({ title, movieId, deletingCallback, setDeletin
       alert(e);
     }
   }
-
-  const classes = useStyles();
 
   return (
     <Card className={classes.root}>

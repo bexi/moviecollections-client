@@ -1,20 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { Redirect } from "react-router-dom";
-import { Auth, API } from "aws-amplify";
+import { API } from "aws-amplify";
 
-import Avatar from '@material-ui/core/Avatar';
-import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
-import TextField from '@material-ui/core/TextField';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Checkbox from '@material-ui/core/Checkbox';
-import Link from '@material-ui/core/Link';
 import Grid from '@material-ui/core/Grid';
-import Box from '@material-ui/core/Box';
-import AccountCirle from '@material-ui/icons/AccountCircle';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
-import Switch from '@material-ui/core/Switch';
+//import AccountCirle from '@material-ui/icons/AccountCircle';
+//import Switch from '@material-ui/core/Switch';
 
 import AddWatchlistItem from '../components/AddItem';
 import MovieCard from '../components/MovieCard'
@@ -52,35 +45,31 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function Main(props) {
+const Main = (props) => {
   const [watchListItems, setWatchListItems] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [addItemCallback, setAddItemCallback] = useState(false);
   const [deletingCallback, setDeletingCallback] = useState(false);
-  const [state, setState] = useState({
+  /*const [state, setState] = useState({
     checkedA: true,
     checkedB: true,
-  });
+  });*/
 
   useEffect(() => {
-    async function onLoad() {
-      if (!props.isAuthenticated) {
-        return;
-      }
-
+    const onLoad = async() => {
+      if (!props.isAuthenticated) return;
       try {
         const items = await loadWatchList();
         setWatchListItems(items);
       } catch (e) {
         alert(e);
       }
-
-        setIsLoading(false);
-      }
-      onLoad();
+      setIsLoading(false);
+    }
+    onLoad();
   }, [props.isAuthenticated, addItemCallback, deletingCallback]);
 
-  function loadWatchList() {
+  const loadWatchList = () => {
     return API.get("moviecollections-api", "/usermovies");
   }
 
@@ -96,7 +85,7 @@ function Main(props) {
 
   const classes = useStyles();
 
-  const handleChange = (event) => {
+  /*const handleChange = (event) => {
     setState({ ...state, [event.target.name]: event.target.checked });
   };
 
@@ -115,7 +104,7 @@ function Main(props) {
         <Grid item>Seen movies</Grid>
       </Grid>
     </Grid>
-  );
+  );*/
 
   const MainContent = (
     <Container component="main" maxWidth="md">
@@ -124,8 +113,8 @@ function Main(props) {
       <div className={classes.paper}>
           <Grid container spacing={2}>
 
-            {pairedItems.map((pair) => (
-              <Grid item xs={12} className={classes.tableRow}>
+            {pairedItems.map((pair, i) => (
+              <Grid item xs={12} className={classes.tableRow} key={i}>
                 <Grid container spacing={1}>
                   <Grid item xs={6} className={classes.movieRow}>
                     <MovieCard

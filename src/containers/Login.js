@@ -13,18 +13,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import { Auth } from "aws-amplify";
 
-function Copyright() {
-  return (
-    <Typography variant="body2" color="textSecondary" align="center">
-      {'Copyright © '}
-      <Link color="inherit" href="https://github.com/bexi">
-        Rebecka Reitmaier
-      </Link>{' '}
-      {new Date().getFullYear()}
-      {'.'}
-    </Typography>
-  );
-}
+import Copyright from '../components/Copyright';
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -53,7 +42,7 @@ export default function Login( props ) {
 
   const classes = useStyles();
 
-  async function handleSubmit(event) {
+  const handleSubmit = async(event) => {
     event.preventDefault();
     setIsLoading(true);
     try {

@@ -1,5 +1,4 @@
 import React from 'react';
-import { Redirect } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -29,8 +28,8 @@ const Navigation = ({ auth }) => {
 
   const AuthedNavMenu = (
     <>
-    <Button color="inherit" type='a' href='/browse'>Browse</Button>
-    <Button color="inherit" type='a' href='/'>My Movies</Button>
+    <Button color="inherit" type='button' href='/browse'>Browse</Button>
+    <Button color="inherit" type='button' href='/'>My Movies</Button>
     <LogoutButton auth={auth}/>
     </>
   );

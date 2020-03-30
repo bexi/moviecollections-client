@@ -25,15 +25,15 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function AddWatchlistItem( props ) {
+const AddWatchlistItem = ( props ) => {
   const [isLoading, setIsLoading] = useState(false);
   const [watchlistItem, setWatchlistItem] = useState('');
 
   const classes = useStyles();
 
-  async function handleSubmit(event) {
+  const handleSubmit = async(event) => {
     event.preventDefault();
-    if(watchlistItem == '') return;
+    if(watchlistItem === '') return;
     setIsLoading(true);
 
     try {
@@ -46,7 +46,7 @@ export default function AddWatchlistItem( props ) {
     }
   }
 
-  function createNote(movie) {
+  const createNote = (movie) => {
     return API.post("moviecollections-api", "/usermovies", {
       body: movie
     });
@@ -94,3 +94,5 @@ export default function AddWatchlistItem( props ) {
 
   return props.isAuthenticated ? (<Redirect to='/' />) : AddWatchlistItem ;
 }
+
+export default AddWatchlistItem;
