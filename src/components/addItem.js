@@ -33,6 +33,7 @@ export default function AddWatchlistItem( props ) {
 
   async function handleSubmit(event) {
     event.preventDefault();
+    if(watchlistItem == '') return;
     setIsLoading(true);
 
     try {
