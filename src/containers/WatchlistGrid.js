@@ -19,7 +19,7 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-export default ({watchlistItems, deletingCallback, setDeletingCallback}) => {
+export default ({watchlistItems, updateWatchlist }) => {
     const classes = useStyles();
 
     const pairwatchlistItems = (items) => {
@@ -40,15 +40,13 @@ export default ({watchlistItems, deletingCallback, setDeletingCallback}) => {
                             <MovieCard
                                 title={pair[0].content}
                                 movieId={pair[0].movieId}
-                                deletingCallback={deletingCallback}
-                                setDeletingCallback={setDeletingCallback}
+                                updateWatchlist={updateWatchlist}
                             /></Grid>}
                         { pair[1] && <Grid item xs={6} className={classes.movieRow}>
                             <MovieCard
                                 title={pair[1].content}
                                 movieId={pair[1].movieId}
-                                deletingCallback={deletingCallback}
-                                setDeletingCallback={setDeletingCallback}
+                                updateWatchlist={updateWatchlist}
                             />
                         </Grid>}
                     </Grid>

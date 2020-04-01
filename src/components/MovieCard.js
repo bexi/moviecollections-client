@@ -23,7 +23,7 @@ const useStyles = makeStyles({
   },
 });
 
-export default function MediaCard({ title, movieId, deletingCallback, setDeletingCallback }) {
+export default function MediaCard({ title, movieId, updateWatchlist }) {
   const classes = useStyles();
 
   const deleteNote = () => {
@@ -34,7 +34,7 @@ export default function MediaCard({ title, movieId, deletingCallback, setDeletin
     event.preventDefault();
     try {
       await deleteNote();
-      setDeletingCallback(!deletingCallback);
+      updateWatchlist();
     } catch (e) {
       alert(e);
     }

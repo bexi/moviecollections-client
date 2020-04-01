@@ -23,10 +23,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default (props) => {
   const [watchlistItems, setWatchlistItems] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
-  // currently used instead of e.g redux - sends callback
-  const [addItemCallback, setAddItemCallback] = useState(false);
-  const [deletingCallback, setDeletingCallback] = useState(false);
+  const [initialLoad, setInitialLoad] = useState(true);
   /*const [state, setState] = useState({
     checkedA: true,
     checkedB: true,
@@ -37,19 +34,23 @@ export default (props) => {
   useEffect(() => {
     const onLoad = async() => {
       if (!props.isAuthenticated) return;
-      try {
-        const items = await loadWatchList();
-        setWatchlistItems(items);
-      } catch (e) {
-        alert(e);
-      }
-      setIsLoading(false);
+      await updateWatchlist();
+      setInitialLoad(false);
     }
     onLoad();
-  }, [props.isAuthenticated, addItemCallback, deletingCallback]);
+  }, [props.isAuthenticated]);
 
   const loadWatchList = () => {
     return API.get("moviecollections-api", "/usermovies");
+  }
+
+  const updateWatchlist = async() => {
+    try {
+      const items = await loadWatchList();
+      setWatchlistItems(items);
+    } catch (e) {
+      alert(e);
+    }
   }
 
   const pairwatchlistItems = (items) => {
@@ -84,12 +85,11 @@ export default (props) => {
   const MainContent = (
     <Container component="main" maxWidth="md">
       <CssBaseline />
-      <AddWatchlistItem setAddItemCallback={setAddItemCallback} addItemCallback={addItemCallback}/>
+      <AddWatchlistItem updateWatchlist={updateWatchlist}/>
       <div className={classes.paper}>
         <WatchlistGrid
             watchlistItems={watchlistItems}
-            deletingCallback={deletingCallback}
-            setDeletingCallback={setDeletingCallback}
+            updateWatchlist={updateWatchlist}
         />
       </div>
     </Container>

@@ -25,7 +25,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const AddWatchlistItem = ( props ) => {
+const AddWatchlistItem = ( { updateWatchlist} ) => {
   const [isLoading, setIsLoading] = useState(false);
   const [watchlistItem, setWatchlistItem] = useState('');
 
@@ -38,7 +38,7 @@ const AddWatchlistItem = ( props ) => {
 
     try {
       await createNote({ content: watchlistItem });
-      props.setAddItemCallback(!props.addItemCallback);
+      updateWatchlist();
       setWatchlistItem('');
     } catch (e) {
       alert(e);
@@ -92,7 +92,7 @@ const AddWatchlistItem = ( props ) => {
     </Container>
   );
 
-  return props.isAuthenticated ? (<Redirect to='/' />) : AddWatchlistItem ;
+  return AddWatchlistItem ;
 }
 
 export default AddWatchlistItem;
