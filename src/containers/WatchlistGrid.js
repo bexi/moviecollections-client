@@ -29,7 +29,7 @@ export default ({watchlistItems, updateWatchlist }) => {
         }
         return paired;
     }
-
+    // each row should contain two movie cards (for now)
     const pairedItems = pairwatchlistItems(watchlistItems);
     return (
         <Grid container spacing={2}>

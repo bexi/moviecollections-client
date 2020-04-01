@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Redirect } from "react-router-dom";
+import axios from 'axios';
 
 import CssBaseline from '@material-ui/core/CssBaseline';
 import { makeStyles } from '@material-ui/core/styles';
@@ -9,6 +10,7 @@ import Container from '@material-ui/core/Container';
 import {API_GET} from '../utils/api-utils'
 import AddWatchlistItem from '../components/AddWatchlistItem';
 import WatchlistGrid from './WatchlistGrid';
+import {IMDB_GET} from '../utils/imdb-api-utils';
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -81,6 +83,10 @@ export default (props) => {
       </Grid>
     </Grid>
   );*/
+
+
+  // Send request to the movie db   
+  //IMDB_GET('https://api.themoviedb.org/4/search/movie?&language=en-US&query=secret%20life&page=1&include_adult=false' ).then((res) => console.log(res));
 
   const MainContent = (
     <Container component="main" maxWidth="md">

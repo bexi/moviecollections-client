@@ -14,6 +14,7 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 
+import SignupConfirmation from './SignupConfirmation';
 import Copyright from '../components/Copyright';
 
 const useStyles = makeStyles((theme) => ({
@@ -36,9 +37,8 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function SignUp(props) {
-  const [showConfirmed, setShowConfirmed] = useState(false);
-  const [confirmationCode, setConfirmationCode] = useState('');
+export default function SignUp({ isAuthenticated, userHasAuthenticated, history }) {
+  const [showConfirmed, setShowConfirmed] = useState(true);
 
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
@@ -66,7 +66,7 @@ export default function SignUp(props) {
       email: email,
       password: password,
     }
-    console.log('newUSer', newUser);
+
     if(!validateForm()) alert('Passwords does not match');
 
     setLoading(true);
@@ -85,66 +85,6 @@ export default function SignUp(props) {
     }
   }
 
-  const submitConfirmation = async(e) => {
-    e.preventDefault();
-    setLoading(true);
-    try {
-      await Auth.confirmSignUp(email, confirmationCode);
-      await Auth.signIn(email, password);
-
-      props.userHasAuthenticated(true);
-      props.history.push("/");
-    } catch (e) {
-      alert(e.message);
-      setLoading(false);
-    }
-  }
-
-  const ConfirmForm = (
-    <Container component="main" maxWidth="xs">
-      <CssBaseline />
-      <div className={classes.paper}>
-        <Avatar className={classes.avatar}>
-          <AccountCirle />
-        </Avatar>
-        <Typography component="h1" variant="h5">
-          Sign up
-        </Typography>
-        <form className={classes.form} onSubmit={submitConfirmation}>
-          <Grid container spacing={2}>
-            <Grid item xs={12}>
-            If you leave this page you will have to re-register and get a new code.
-            </Grid>
-            <Grid item xs={12}>
-              <TextField
-                name="confirmationCode"
-                variant="outlined"
-                required
-                fullWidth
-                id="confirmationCode"
-                label="Confirmation Code from email"
-                autoFocus
-                value={confirmationCode}
-                onChange={(e) => setConfirmationCode(e.target.value)}
-              />
-            </Grid>
-          </Grid>
-          <Button
-            type="submit"
-            fullWidth
-            variant="contained"
-            color="primary"
-            className={classes.submit}
-          >
-            Confirm
-          </Button>
-        </form>
-      </div>
-      <Box mt={5}>
-        <Copyright />
-      </Box>
-    </Container>
-  );
 
   const SignupForm = (
     <Container component="main" maxWidth="xs">
@@ -255,5 +195,10 @@ export default function SignUp(props) {
     </Container>
   );
 
-  return props.isAuthenticated ? (<Redirect to='/' />) : (showConfirmed ? ConfirmForm : SignupForm) ;
+  return isAuthenticated ?
+      (<Redirect to='/' />) :
+      (showConfirmed ?
+          <SignupConfirmation email={email} password={password} userHasAuthenticated={userHasAuthenticated} history={history} /> :
+          SignupForm
+      );
 }
