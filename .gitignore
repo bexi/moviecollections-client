@@ -24,3 +24,6 @@ yarn-error.log*
 
 # secrets
 config.js
+
+# editors
+.idea

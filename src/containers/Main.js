@@ -3,14 +3,12 @@ import { Redirect } from "react-router-dom";
 import { API } from "aws-amplify";
 
 import CssBaseline from '@material-ui/core/CssBaseline';
-import Grid from '@material-ui/core/Grid';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
-//import AccountCirle from '@material-ui/icons/AccountCircle';
 //import Switch from '@material-ui/core/Switch';
 
-import AddWatchlistItem from '../components/AddItem';
-import MovieCard from '../components/MovieCard'
+import AddWatchlistItem from '../components/AddWatchlistItem';
+import WatchlistGrid from './WatchlistGrid';
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -20,34 +18,13 @@ const useStyles = makeStyles((theme) => ({
     alignItems: 'center',
     backgroundColor: theme.palette.paper.main,
     minHeight: '75vh',
-  },
-  avatar: {
-    margin: theme.spacing(1),
-    backgroundColor: theme.palette.secondary.main,
-  },
-  form: {
-    width: '100%', // Fix IE 11 issue.
-    marginTop: theme.spacing(3),
-  },
-  submit: {
-    margin: theme.spacing(3, 0, 2),
-  },
-  tableRow: {
-    margin: theme.spacing(1, 1, 0),
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-  },
-  movieRow: {
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-  },
+  }
 }));
 
-const Main = (props) => {
-  const [watchListItems, setWatchListItems] = useState([]);
+export default (props) => {
+  const [watchlistItems, setWatchlistItems] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+  // currently used instead of e.g redux - sends callback
   const [addItemCallback, setAddItemCallback] = useState(false);
   const [deletingCallback, setDeletingCallback] = useState(false);
   /*const [state, setState] = useState({
@@ -55,12 +32,14 @@ const Main = (props) => {
     checkedB: true,
   });*/
 
+  const classes = useStyles();
+
   useEffect(() => {
     const onLoad = async() => {
       if (!props.isAuthenticated) return;
       try {
         const items = await loadWatchList();
-        setWatchListItems(items);
+        setWatchlistItems(items);
       } catch (e) {
         alert(e);
       }
@@ -73,17 +52,13 @@ const Main = (props) => {
     return API.get("moviecollections-api", "/usermovies");
   }
 
-  const pairWatchlistItems = (items) => {
+  const pairwatchlistItems = (items) => {
     let paired = [];
     for(let i=0; i < (items.length ); i=i+2){
       paired[i] = [items[i], items[i+1]];
     }
     return paired;
   }
-
-  const pairedItems = pairWatchlistItems(watchListItems);
-
-  const classes = useStyles();
 
   /*const handleChange = (event) => {
     setState({ ...state, [event.target.name]: event.target.checked });
@@ -111,35 +86,14 @@ const Main = (props) => {
       <CssBaseline />
       <AddWatchlistItem setAddItemCallback={setAddItemCallback} addItemCallback={addItemCallback}/>
       <div className={classes.paper}>
-          <Grid container spacing={2}>
-
-            {pairedItems.map((pair, i) => (
-              <Grid item xs={12} className={classes.tableRow} key={i}>
-                <Grid container spacing={1}>
-                  <Grid item xs={6} className={classes.movieRow}>
-                    <MovieCard
-                      title={pair[0].content}
-                      movieId={pair[0].movieId}
-                      deletingCallback={deletingCallback}
-                      setDeletingCallback={setDeletingCallback}
-                      />
-                  </Grid>
-                  { pair[1] && <Grid item xs={6} className={classes.movieRow}>
-                    <MovieCard
-                      title={pair[1].content}
-                      movieId={pair[0].movieId}
-                      deletingCallback={deletingCallback}
-                      setDeletingCallback={setDeletingCallback}
-                      />
-                    </Grid>}
-                </Grid>
-              </Grid>
-            ))}
-          </Grid>
+        <WatchlistGrid
+            watchlistItems={watchlistItems}
+            deletingCallback={deletingCallback}
+            setDeletingCallback={setDeletingCallback}
+        />
       </div>
     </Container>
   );
+
   return ( props.isAuthenticated ? MainContent : <Redirect to='/login'/>);
 }
-
-export default Main;
