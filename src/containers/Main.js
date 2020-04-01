@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { Redirect } from "react-router-dom";
-import { API } from "aws-amplify";
 
 import CssBaseline from '@material-ui/core/CssBaseline';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 //import Switch from '@material-ui/core/Switch';
 
+import {API_GET} from '../utils/api-utils'
 import AddWatchlistItem from '../components/AddWatchlistItem';
 import WatchlistGrid from './WatchlistGrid';
 
@@ -41,12 +41,12 @@ export default (props) => {
   }, [props.isAuthenticated]);
 
   const loadWatchList = () => {
-    return API.get("moviecollections-api", "/usermovies");
+    return API_GET("/usermovies");
   }
 
   const updateWatchlist = async() => {
     try {
-      const items = await loadWatchList();
+      const items = await API_GET('/usermovies');
       setWatchlistItems(items);
     } catch (e) {
       alert(e);

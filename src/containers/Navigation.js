@@ -8,7 +8,7 @@ import Button from '@material-ui/core/Button';
 import Link from '@material-ui/core/Link';
 
 import LocalMovies from '@material-ui/icons/LocalMovies';
-import LogoutButton from './LogoutButton';
+import LogoutButton from '../components/LogoutButton';
 
 const Navigation = ({ auth }) => {
 

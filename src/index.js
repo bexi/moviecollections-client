@@ -24,7 +24,7 @@ Amplify.configure({
   API: {
     endpoints: [
       {
-        name: "moviecollections-api",
+        name: config.api.name,
         endpoint: config.apiGateway.URL,
         region: config.apiGateway.REGION
       },
