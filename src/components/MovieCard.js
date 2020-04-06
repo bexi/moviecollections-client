@@ -20,17 +20,18 @@ const useStyles = makeStyles({
     maxWidth: '80%',
   },
   media: {
-    height: 140,
+    height: 160,
   },
 });
 
-export default function MediaCard({ title, movieId, updateWatchlist }) {
+export default function MediaCard({ watchlistItem, updateWatchlist }) {
   const classes = useStyles();
+  const posterUrl =  `https://image.tmdb.org/t/p/original/${watchlistItem.posterUrl}`
 
   const handleDelete = async(event) => {
     event.preventDefault();
     try {
-      await API_DELETE(`/usermovie/${movieId}`);
+      await API_DELETE(`/usermovie/${watchlistItem.movieId}`);
       updateWatchlist();
     } catch (e) {
       alert(e);
@@ -45,21 +46,20 @@ export default function MediaCard({ title, movieId, updateWatchlist }) {
            <MoreVertIcon />
          </IconButton>
        }
-       title={title}
+       title={watchlistItem.title}
        />
       <CardActionArea>
         <CardMedia
           className={classes.media}
-          image={img}
+          image={posterUrl}
           title="Movie Image"
         />
         <CardContent>
           <Typography gutterBottom variant="h5" component="h2">
-            Imdb rating
+            Imdb rating: {watchlistItem.imdbRating}
           </Typography>
           <Typography variant="body2" color="textSecondary" component="p">
-            Movie information. Lorem Ipsum is simply dummy text of the printing and typesetting industry.
-            Lorem Ipsum has been the industry's standard dummy text ever since the 1500s.
+              {watchlistItem.description}
           </Typography>
         </CardContent>
       </CardActionArea>

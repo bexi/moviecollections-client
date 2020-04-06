@@ -50,10 +50,16 @@ const SearchWatchlistItem = ({ updateWatchlist }) => {
         });
     }
 
-    const addWatchlistItemToDB = async(title) => {
+    const addWatchlistItemToDB = async(item) => {
         console.log('add item to watchlist');
         try {
-            await API_POST('/usermovies', { content: title });
+            await API_POST('/usermovies', {
+                imdbId: item.id,
+                title: item.title,
+                posterUrl: item['poster_path'],
+                description: item['overview'],
+                imdbRating: item['vote_average']
+            });
             updateWatchlist();
             setSearchItem('');
             setSearchResults([]);
@@ -63,13 +69,13 @@ const SearchWatchlistItem = ({ updateWatchlist }) => {
     }
 
     const searchResultRow = (item) => {
-        let posterUrl =  `https://image.tmdb.org/t/p/original/${item['poster_path']}`
+        const posterUrl =  `https://image.tmdb.org/t/p/original/${item['poster_path']}`
         return(
-            <Box
+            <Box key={item.id}
                 bgcolor="background.paper"
                 color="text.primary"
                 p={2}
-                onClick={() => addWatchlistItemToDB(item.title)}
+                onClick={() => addWatchlistItemToDB(item)}
                 className={classes.dropdownItem}
                 borderRadius="borderRadius"
             >
@@ -77,15 +83,15 @@ const SearchWatchlistItem = ({ updateWatchlist }) => {
                     <Grid item xs={3} > <img style={{width:'30%'}} src={posterUrl} /></Grid>
                     <Grid item xs={9} >
                         <Grid container >
-                            <Grid xs={12}>
+                            <Grid item xs={12}>
                                 <Typography component="h5" variant="h5">
                                     {item.title}
                                 </Typography>
                             </Grid>
-                            <Grid xs={12}>
+                            <Grid item xs={12}>
                                 <b>Imdb: {item['vote_average']}</b>
                             </Grid>
-                            <Grid xs={12}>
+                            <Grid item xs={12}>
                                 Description: {item['overview']}
                             </Grid>
                         </Grid>
@@ -127,8 +133,7 @@ const SearchWatchlistItem = ({ updateWatchlist }) => {
                         }else{
                             setSearchResults([]);
                         }
-                    }
-                    }
+                    }}
                 />
             </div>
             {renderSearchResults()}

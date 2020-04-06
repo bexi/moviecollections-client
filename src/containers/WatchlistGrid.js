@@ -38,14 +38,12 @@ export default ({watchlistItems, updateWatchlist }) => {
                     <Grid container spacing={1}>
                         { pair[0] && <Grid item xs={6} className={classes.movieRow}>
                             <MovieCard
-                                title={pair[0].content}
-                                movieId={pair[0].movieId}
+                                watchlistItem={pair[0]}
                                 updateWatchlist={updateWatchlist}
                             /></Grid>}
                         { pair[1] && <Grid item xs={6} className={classes.movieRow}>
                             <MovieCard
-                                title={pair[1].content}
-                                movieId={pair[1].movieId}
+                                watchlistItem={pair[1]}
                                 updateWatchlist={updateWatchlist}
                             />
                         </Grid>}
