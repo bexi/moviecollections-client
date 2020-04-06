@@ -62,6 +62,39 @@ const SearchWatchlistItem = ({ updateWatchlist }) => {
         }
     }
 
+    const searchResultRow = (item) => {
+        let posterUrl =  `https://image.tmdb.org/t/p/original/${item['poster_path']}`
+        return(
+            <Box
+                bgcolor="background.paper"
+                color="text.primary"
+                p={2}
+                onClick={() => addWatchlistItemToDB(item.title)}
+                className={classes.dropdownItem}
+                borderRadius="borderRadius"
+            >
+                <Grid container >
+                    <Grid item xs={3} > <img style={{width:'30%'}} src={posterUrl} /></Grid>
+                    <Grid item xs={9} >
+                        <Grid container >
+                            <Grid xs={12}>
+                                <Typography component="h5" variant="h5">
+                                    {item.title}
+                                </Typography>
+                            </Grid>
+                            <Grid xs={12}>
+                                <b>Imdb: {item['vote_average']}</b>
+                            </Grid>
+                            <Grid xs={12}>
+                                Description: {item['overview']}
+                            </Grid>
+                        </Grid>
+                    </Grid>
+                </Grid>
+            </Box>
+        );
+    }
+
     const renderSearchResults = () => (
         <Box  position="relative" style={{width:'100%'}}>
             { searchResults.length>0 && <Box
@@ -71,37 +104,7 @@ const SearchWatchlistItem = ({ updateWatchlist }) => {
                 borderRadius="borderRadius"
                 style={{width:'100%', padding:'1%'}}
             >
-                {searchResults.map((item) => {
-                    let posterUrl =  `https://image.tmdb.org/t/p/original/${item['poster_path']}`
-                    return(
-                        <Box
-                            bgcolor="background.paper"
-                            color="text.primary"
-                            p={2}
-                            onClick={() => addWatchlistItemToDB(item.title)}
-                            className={classes.dropdownItem}
-                            borderRadius="borderRadius"
-                        >
-                            <Grid container >
-                                <Grid item xs={3} > <img style={{width:'30%'}} src={posterUrl} /></Grid>
-                                <Grid item xs={9} >
-                                    <Grid container >
-                                        <Grid xs={12}>
-                                            <Typography component="h5" variant="h5">
-                                                {item.title}
-                                            </Typography>
-                                        </Grid>
-                                        <Grid xs={12}>
-                                            <b>Imdb: {item['vote_average']}</b>
-                                        </Grid>
-                                        <Grid xs={12}>
-                                            Description: {item['overview']}
-                                        </Grid>
-                                    </Grid>
-                                </Grid>
-                            </Grid>
-                        </Box>
-                    )})}
+                {searchResults.map((item) => searchResultRow(item))}
             </Box>}
         </Box>
     );
