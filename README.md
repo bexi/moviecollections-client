@@ -1,7 +1,5 @@
 # MovieCollections Client
-
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
-
+App to collect which movies/series that you have seen and want to see.
 
 ## Features
 * Make the app more mobile friendly
@@ -11,6 +9,7 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 * Add tests 
 * Signup - resend code mode 
 * Signup/Login - better error messages 
+* View layout switch (list and cards)
 
 * Update movielist with new data from OMDB (image, description etc) - done
 * Searchbar Menu - show search results (title, image, description, imdb rating) - done 

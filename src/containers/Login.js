@@ -39,8 +39,11 @@ export default function Login( props ) {
   const [isLoading, setIsLoading] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [errorMessage, setErrorMessage] = useState(null);
 
   const classes = useStyles();
+
+  const ERROR_NO_AUTH = 'Incorrect username or password.';
 
   const handleSubmit = async(event) => {
     event.preventDefault();
@@ -50,7 +53,9 @@ export default function Login( props ) {
       props.userHasAuthenticated(true);
       props.history.push('/');
     } catch (e) {
-      alert(e.message);
+      console.log('error message: ', e);
+      if(e.message = ERROR_NO_AUTH) return setErrorMessage(ERROR_NO_AUTH);
+      else return setErrorMessage(e.message);
     }
     setIsLoading(false);
   }
@@ -79,7 +84,7 @@ export default function Login( props ) {
         <Typography component="h1" variant="h5">
           Sign in
         </Typography>
-        <form className={classes.form} noValidate onSubmit={handleSubmit}>
+        <form className={classes.form} onSubmit={handleSubmit}>
           <TextField
             variant="outlined"
             margin="normal"
@@ -90,8 +95,13 @@ export default function Login( props ) {
             name="email"
             autoComplete="email"
             autoFocus
-            onChange={e => setEmail(e.target.value)}
             value={email}
+            onChange={e => {
+              setEmail(e.target.value);
+              setErrorMessage(null);
+            }}
+            error={ errorMessage != null }
+            helperText={errorMessage}
           />
           <TextField
             variant="outlined"
@@ -103,8 +113,13 @@ export default function Login( props ) {
             type="password"
             id="password"
             autoComplete="current-password"
-            onChange={e => setPassword(e.target.value)}
             value={password}
+            onChange={e => {
+              setPassword(e.target.value);
+              setErrorMessage(null);
+            }}
+            error={ errorMessage != null }
+            helperText={errorMessage}
           />
           <Button
             type="submit"

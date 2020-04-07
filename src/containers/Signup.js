@@ -38,7 +38,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function SignUp({ isAuthenticated, userHasAuthenticated, history }) {
-  const [showConfirmed, setShowConfirmed] = useState(true);
+  const [showConfirmed, setShowConfirmed] = useState(false);
 
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
