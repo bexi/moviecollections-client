@@ -11,6 +11,8 @@ import LockOutlinedIcon from '@material-ui/icons/VpnKey';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
+import CircularProgress from '@material-ui/core/CircularProgress';
+
 import { Auth } from "aws-amplify";
 
 import Copyright from '../components/Copyright';
@@ -52,12 +54,11 @@ export default function Login( props ) {
       await Auth.signIn(email, password);
       props.userHasAuthenticated(true);
       props.history.push('/');
+      setIsLoading(false);
     } catch (e) {
-      console.log('error message: ', e);
-      if(e.message = ERROR_NO_AUTH) return setErrorMessage(ERROR_NO_AUTH);
-      else return setErrorMessage(e.message);
+      setIsLoading(false);
+      setErrorMessage(e.message);
     }
-    setIsLoading(false);
   }
 
   // TODO
@@ -127,8 +128,9 @@ export default function Login( props ) {
             variant="contained"
             color="primary"
             className={classes.submit}
+            disabled={isLoading}
           >
-            Sign In
+            {isLoading ?  <CircularProgress color="secondary" size={25} /> : 'Sign In'}
           </Button>
           <Grid container>
             <Grid item xs>
