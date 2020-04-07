@@ -39,14 +39,17 @@ const useStyles = makeStyles((theme) => ({
 
 export default function SignUp({ isAuthenticated, userHasAuthenticated, history }) {
   const [showConfirmed, setShowConfirmed] = useState(false);
+  const [errorCode, setErrorCode] = useState(null);
 
-  const [firstName, setFirstName] = useState('');
-  const [lastName, setLastName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [passwordConfirm, setPasswordConfirm] = useState('');
 
   const [loading, setLoading] = useState(false);
+
+  const USER_ALREADY_EXIST_ERROR = 'UsernameExistsException';
+  const INVALID_PASSWORD_ERROR = 'InvalidParameterException';
+  const PASSWORDS_NOT_MATCH_ERROR = 'PasswordsDoesNotMatchException';
 
   const classes = useStyles();
 
@@ -60,14 +63,11 @@ export default function SignUp({ isAuthenticated, userHasAuthenticated, history 
 
   const submit = async(e) => {
     e.preventDefault();
-    const newUser = {
-      firstName: firstName,
-      lastName: lastName,
-      email: email,
-      password: password,
-    }
 
-    if(!validateForm()) alert('Passwords does not match');
+    if(!validateForm()) {
+      setErrorCode(PASSWORDS_NOT_MATCH_ERROR);
+      return;
+    }
 
     setLoading(true);
 
@@ -80,11 +80,16 @@ export default function SignUp({ isAuthenticated, userHasAuthenticated, history 
       setShowConfirmed(true);
 
     } catch (e) {
-      alert(e.message);
+      console.log(e);
+      setErrorCode(e.name);
       setLoading(false);
     }
   }
 
+  const getPasswordHelpText = () => {
+    if (errorCode == PASSWORDS_NOT_MATCH_ERROR) return 'Passwords does not match';
+    if (errorCode == INVALID_PASSWORD_ERROR) return 'Password does not match the critieras';
+  }
 
   const SignupForm = (
     <Container component="main" maxWidth="xs">
@@ -98,33 +103,6 @@ export default function SignUp({ isAuthenticated, userHasAuthenticated, history 
         </Typography>
         <form className={classes.form} onSubmit={submit}>
           <Grid container spacing={2}>
-            <Grid item xs={12} sm={6}>
-              <TextField
-                autoComplete="fname"
-                name="firstName"
-                variant="outlined"
-                required
-                fullWidth
-                id="firstName"
-                label="First Name"
-                autoFocus
-                value={firstName}
-                onChange={(e) => setFirstName(e.target.value)}
-              />
-            </Grid>
-            <Grid item xs={12} sm={6}>
-              <TextField
-                variant="outlined"
-                required
-                fullWidth
-                id="lastName"
-                label="Last Name"
-                name="lastName"
-                autoComplete="lname"
-                value={lastName}
-                onChange={(e) => setLastName(e.target.value)}
-              />
-            </Grid>
             <Grid item xs={12}>
               <TextField
                 variant="outlined"
@@ -135,13 +113,18 @@ export default function SignUp({ isAuthenticated, userHasAuthenticated, history 
                 name="email"
                 autoComplete="email"
                 value={email}
-                onChange={(e) => setEmail(e.target.value)}
+                onChange={e => {
+                  setEmail(e.target.value);
+                  setErrorCode(null);
+                }}
+                error={ errorCode == USER_ALREADY_EXIST_ERROR }
+                helperText={errorCode == USER_ALREADY_EXIST_ERROR && 'Account with that email already exist. Need to resend verification code to email?'}
               />
             </Grid>
-              <Grid item xs={12}>
-                  Passwords must be at least 8 characters in length. <br/>
-                  A minimum of 1 upper case letter and special character.
-              </Grid>
+            <Grid item xs={12}>
+                Passwords must be at least 8 characters in length. <br/>
+                A minimum of 1 upper case letter and special character.
+            </Grid>
             <Grid item xs={12}>
               <TextField
                 variant="outlined"
@@ -153,7 +136,11 @@ export default function SignUp({ isAuthenticated, userHasAuthenticated, history 
                 id="password"
                 autoComplete="current-password"
                 value={password}
-                onChange={(e) => setPassword(e.target.value)}
+                onChange={e => {
+                  setPassword(e.target.value);
+                  setErrorCode(null);
+                }}
+                error={ errorCode == PASSWORDS_NOT_MATCH_ERROR || errorCode == INVALID_PASSWORD_ERROR }
               />
             </Grid>
             <Grid item xs={12}>
@@ -167,7 +154,12 @@ export default function SignUp({ isAuthenticated, userHasAuthenticated, history 
                 id="passwordConfirm"
                 autoComplete="current-password"
                 value={passwordConfirm}
-                onChange={(e) => setPasswordConfirm(e.target.value)}
+                onChange={e => {
+                  setPasswordConfirm(e.target.value);
+                  setErrorCode(null);
+                }}
+                error={ errorCode == PASSWORDS_NOT_MATCH_ERROR || errorCode == INVALID_PASSWORD_ERROR }
+                helperText={getPasswordHelpText()}
               />
             </Grid>
           </Grid>
@@ -195,6 +187,7 @@ export default function SignUp({ isAuthenticated, userHasAuthenticated, history 
     </Container>
   );
 
+  console.log('error code: ', errorCode);
   return isAuthenticated ?
       (<Redirect to='/' />) :
       (showConfirmed ?
