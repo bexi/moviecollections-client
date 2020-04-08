@@ -1,5 +1,6 @@
 import React, {useState} from "react";
 import {Auth} from "aws-amplify";
+import { Redirect } from 'react-router-dom';
 
 import Container from "@material-ui/core/Container";
 import CssBaseline from "@material-ui/core/CssBaseline";
@@ -34,10 +35,19 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-const ConfirmationForm = ({email, password, history, userHasAuthenticated}) => {
+const ConfirmationForm = ({auth, history, location}) => {
     const [confirmationCode, setConfirmationCode] = useState('');
 
     const classes = useStyles();
+
+    // if state (email and password) is not set, redirect
+    // state is set when the redirect is done (login and signup)
+    if(!location.state) return <Redirect to={'/signup'} />;
+
+    const email = location.state.email;
+    const password = location.state.password;
+
+    console.log('verify props: ', email, password);
 
     const submitConfirmation = async(e) => {
         e.preventDefault();
@@ -46,7 +56,7 @@ const ConfirmationForm = ({email, password, history, userHasAuthenticated}) => {
             await Auth.confirmSignUp(email, confirmationCode);
             await Auth.signIn(email, password);
 
-            userHasAuthenticated(true);
+            auth.userHasAuthenticated(true);
             history.push("/");
         } catch (e) {
             alert(e.message);

@@ -37,10 +37,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function SignUp( props ) { // { auth, history }
-  console.log('signup props: ', props);
-  const auth = props.auth;
-  const history = props.history;
+export default function SignUp({ auth } ) {
 
   const [showConfirmed, setShowConfirmed] = useState(false);
   const [errorCode, setErrorCode] = useState(null);
@@ -195,7 +192,7 @@ export default function SignUp( props ) { // { auth, history }
   return auth.isAuthenticated ?
       (<Redirect to='/' />) :
       (showConfirmed ?
-          <SignupConfirmation email={email} password={password} userHasAuthenticated={auth.userHasAuthenticated} history={history} /> :
+          <Redirect to={{pathname: '/signup/verify', state: {email: email, password: password}}} /> :
           SignupForm
       );
 }

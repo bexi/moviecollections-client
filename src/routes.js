@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 
 import Login from './containers/Login';
 import Signup from './containers/Signup';
+import SignupConfirmation from './containers/SignupConfirmation';
 import Main from './containers/Main';
 import Browse from './containers/Browse';
 import AppliedRoute from "./components/AppliedRoute";
@@ -15,6 +16,7 @@ function Routes(props) {
       <Switch>
         <Route exact path="/login" render={(props) => <Login {...props} auth={auth}/>}/>
         <Route exact path="/signup" render={(props) => <Signup {...props} auth={auth}/>}/>
+        <Route exact path="/signup/verify" render={(props) => <SignupConfirmation {...props} auth={auth}/>}/>
         <Route exact path="/browse" render={(props) => <Browse {...props} auth={auth}/>}/>
         <Route exact path="/" render={(props) => <Main {...props} auth={auth}/>} />
         <Route component={() => (<div>404 not found</div>)} />
