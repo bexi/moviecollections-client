@@ -47,8 +47,6 @@ const ConfirmationForm = ({auth, history, location}) => {
     const email = location.state.email;
     const password = location.state.password;
 
-    console.log('verify props: ', email, password);
-
     const submitConfirmation = async(e) => {
         e.preventDefault();
         //setLoading(true);
@@ -59,8 +57,7 @@ const ConfirmationForm = ({auth, history, location}) => {
             auth.userHasAuthenticated(true);
             history.push("/");
         } catch (e) {
-            alert(e.message);
-            //setLoading(false);
+            history.push("/login");
         }
     }
 

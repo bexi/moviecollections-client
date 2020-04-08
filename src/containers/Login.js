@@ -41,11 +41,12 @@ export default function Login( { auth, history } ) {
   const [isLoading, setIsLoading] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [errorMessage, setErrorMessage] = useState(null);
+  const [errorCode, setErrorCode] = useState(null);
 
   const classes = useStyles();
 
-  const ERROR_NO_AUTH = 'Incorrect username or password.';
+  const USER_ALREADY_EXIST_ERROR = 'UsernameExistsException';
+  const ERROR_NO_AUTH = 'NotAuthorizedException';
 
   const handleSubmit = async(event) => {
     event.preventDefault();
@@ -56,8 +57,9 @@ export default function Login( { auth, history } ) {
       history.push('/');
       setIsLoading(false);
     } catch (e) {
+      console.log(e);
       setIsLoading(false);
-      setErrorMessage(e.message);
+      setErrorCode(e.code);
     }
   }
 
@@ -74,6 +76,15 @@ export default function Login( { auth, history } ) {
       label="Remember me"
     />
   );*/
+  const resendVerificationCode = () => {
+    Auth.resendSignUp(email).then(() => {
+      const state = { 'email': email, 'password': password };
+      history.push('/signup/verify', state);
+      setErrorCode(null);
+    }).catch(e => {
+      alert(e);
+    });
+  }
 
   const LoginForm = (
     <Container component="main" maxWidth="xs">
@@ -99,10 +110,10 @@ export default function Login( { auth, history } ) {
             value={email}
             onChange={e => {
               setEmail(e.target.value);
-              setErrorMessage(null);
+              setErrorCode(null);
             }}
-            error={ errorMessage != null }
-            helperText={errorMessage}
+            error={ errorCode != null }
+            helperText={errorCode}
           />
           <TextField
             variant="outlined"
@@ -117,10 +128,10 @@ export default function Login( { auth, history } ) {
             value={password}
             onChange={e => {
               setPassword(e.target.value);
-              setErrorMessage(null);
+              setErrorCode(null);
             }}
-            error={ errorMessage != null }
-            helperText={errorMessage}
+            error={ errorCode != null }
+            helperText={errorCode}
           />
           <Button
             type="submit"
@@ -142,6 +153,15 @@ export default function Login( { auth, history } ) {
             </Grid>
           </Grid>
         </form>
+        {errorCode==USER_ALREADY_EXIST_ERROR &&
+          <Button
+              fullWidth
+              variant="contained"
+              color="secondary"
+              onClick={() => resendVerificationCode()}
+          >
+            Resend verification code to email
+          </Button>}
       </div>
       <Box mt={8}>
         <Copyright />

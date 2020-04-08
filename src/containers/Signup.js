@@ -37,9 +37,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function SignUp({ auth } ) {
-
-  const [showConfirmed, setShowConfirmed] = useState(false);
+export default function SignUp({ auth, history } ) {
   const [errorCode, setErrorCode] = useState(null);
 
   const [email, setEmail] = useState('');
@@ -77,19 +75,26 @@ export default function SignUp({ auth } ) {
         username: email,
         password: password
       });
-      setLoading(false);
-      setShowConfirmed(true);
-
+      history.push('/signup/verify', {email:email, password: password});
     } catch (e) {
-      console.log(e);
       setErrorCode(e.name);
-      setLoading(false);
     }
+    setLoading(false);
   }
 
   const getPasswordHelpText = () => {
     if (errorCode == PASSWORDS_NOT_MATCH_ERROR) return 'Passwords does not match';
     if (errorCode == INVALID_PASSWORD_ERROR) return 'Password does not match the critieras';
+  }
+
+  const resendVerificationCode = () => {
+    Auth.resendSignUp(email).then(() => {
+      const state = { 'email': email, 'password': password };
+      history.push('/signup/verify', state);
+      setErrorCode(null);
+    }).catch(e => {
+      alert(e);
+    });
   }
 
   const SignupForm = (
@@ -122,6 +127,17 @@ export default function SignUp({ auth } ) {
                 helperText={errorCode == USER_ALREADY_EXIST_ERROR && 'Account with that email already exist. Need to resend verification code to email?'}
               />
             </Grid>
+            {errorCode==USER_ALREADY_EXIST_ERROR &&
+            <Grid item xs={12}>
+              <Button
+                  fullWidth
+                  variant="contained"
+                  color="secondary"
+                  onClick={() => resendVerificationCode()}
+              >
+                Resend verification code to email
+              </Button>
+            </Grid>}
             <Grid item xs={12}>
                 Passwords must be at least 8 characters in length. <br/>
                 A minimum of 1 upper case letter and special character.
@@ -142,6 +158,7 @@ export default function SignUp({ auth } ) {
                   setErrorCode(null);
                 }}
                 error={ errorCode == PASSWORDS_NOT_MATCH_ERROR || errorCode == INVALID_PASSWORD_ERROR }
+                disabled={ errorCode == USER_ALREADY_EXIST_ERROR }
               />
             </Grid>
             <Grid item xs={12}>
@@ -161,6 +178,7 @@ export default function SignUp({ auth } ) {
                 }}
                 error={ errorCode == PASSWORDS_NOT_MATCH_ERROR || errorCode == INVALID_PASSWORD_ERROR }
                 helperText={getPasswordHelpText()}
+                disabled={ errorCode == USER_ALREADY_EXIST_ERROR }
               />
             </Grid>
           </Grid>
@@ -170,6 +188,7 @@ export default function SignUp({ auth } ) {
             variant="contained"
             color="primary"
             className={classes.submit}
+            disabled={ errorCode == USER_ALREADY_EXIST_ERROR }
           >
             Sign Up
           </Button>
@@ -188,11 +207,5 @@ export default function SignUp({ auth } ) {
     </Container>
   );
 
-  console.log('error code: ', errorCode);
-  return auth.isAuthenticated ?
-      (<Redirect to='/' />) :
-      (showConfirmed ?
-          <Redirect to={{pathname: '/signup/verify', state: {email: email, password: password}}} /> :
-          SignupForm
-      );
+  return auth.isAuthenticated ? (<Redirect to='/' />) : SignupForm ;
 }
