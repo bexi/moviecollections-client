@@ -7,14 +7,16 @@ import Main from './containers/Main';
 import Browse from './containers/Browse';
 import AppliedRoute from "./components/AppliedRoute";
 
-function Routes({ auth }) {
+function Routes(props) {
+    console.log('router props', props);
+    const auth = props.auth;
   return (
     <Router>
       <Switch>
-        <AppliedRoute exact path="/login" component={Login} auth={auth} />
-        <AppliedRoute exact path="/signup" component={Signup} auth={auth} />
-        <AppliedRoute exact path="/browse" component={Browse} auth={auth} />
-        <AppliedRoute exact path="/" component={Main} auth={auth} />
+        <Route exact path="/login" render={(props) => <Login {...props} auth={auth}/>}/>
+        <Route exact path="/signup" render={(props) => <Signup {...props} auth={auth}/>}/>
+        <Route exact path="/browse" render={(props) => <Browse {...props} auth={auth}/>}/>
+        <Route exact path="/" render={(props) => <Main {...props} auth={auth}/>} />
         <Route component={() => (<div>404 not found</div>)} />
       </Switch>
     </Router>

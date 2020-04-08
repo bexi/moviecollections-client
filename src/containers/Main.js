@@ -51,7 +51,7 @@ export default (props) => {
       setInitialLoad(false);
     }
     onLoad();
-  }, [props.isAuthenticated]);
+  }, [props.auth.isAuthenticated]);
 
   const updateWatchlist = async() => {
     try {
@@ -103,5 +103,5 @@ export default (props) => {
       </div>
     </Container>
   );
-  return ( props.isAuthenticated ? MainContent : <Redirect to='/login'/>);
+  return ( props.auth.isAuthenticated ? MainContent : <Redirect to='/login'/>);
 }

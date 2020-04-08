@@ -37,7 +37,11 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function SignUp({ isAuthenticated, userHasAuthenticated, history }) {
+export default function SignUp( props ) { // { auth, history }
+  console.log('signup props: ', props);
+  const auth = props.auth;
+  const history = props.history;
+
   const [showConfirmed, setShowConfirmed] = useState(false);
   const [errorCode, setErrorCode] = useState(null);
 
@@ -188,10 +192,10 @@ export default function SignUp({ isAuthenticated, userHasAuthenticated, history 
   );
 
   console.log('error code: ', errorCode);
-  return isAuthenticated ?
+  return auth.isAuthenticated ?
       (<Redirect to='/' />) :
       (showConfirmed ?
-          <SignupConfirmation email={email} password={password} userHasAuthenticated={userHasAuthenticated} history={history} /> :
+          <SignupConfirmation email={email} password={password} userHasAuthenticated={auth.userHasAuthenticated} history={history} /> :
           SignupForm
       );
 }

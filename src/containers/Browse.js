@@ -13,5 +13,5 @@ export default function Browse(props) {
       </Typography>
       </Container>
   );
-  return ( props.isAuthenticated ? MainContent : <Redirect to='/login'/> );
+  return ( props.auth.isAuthenticated ? MainContent : <Redirect to='/login'/> );
 }

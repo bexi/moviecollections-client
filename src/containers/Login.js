@@ -37,7 +37,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function Login( props ) {
+export default function Login( { auth, history } ) {
   const [isLoading, setIsLoading] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -52,8 +52,8 @@ export default function Login( props ) {
     setIsLoading(true);
     try {
       await Auth.signIn(email, password);
-      props.userHasAuthenticated(true);
-      props.history.push('/');
+      auth.userHasAuthenticated(true);
+      history.push('/');
       setIsLoading(false);
     } catch (e) {
       setIsLoading(false);
@@ -149,5 +149,5 @@ export default function Login( props ) {
     </Container>
   );
 
-  return props.isAuthenticated ? (<Redirect to='/' />) : LoginForm ;
+  return auth.isAuthenticated ? (<Redirect to='/' />) : LoginForm ;
 }
