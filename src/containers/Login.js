@@ -16,6 +16,8 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 import { Auth } from "aws-amplify";
 
 import Copyright from '../components/Copyright';
+import AwsErrors from '../utils/aws-errors';
+import VerifyEmailButton from "../components/VerifyEmailButton";
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -45,9 +47,6 @@ export default function Login( { auth, history } ) {
 
   const classes = useStyles();
 
-  const USER_ALREADY_EXIST_ERROR = 'UsernameExistsException';
-  const ERROR_NO_AUTH = 'NotAuthorizedException';
-
   const handleSubmit = async(event) => {
     event.preventDefault();
     setIsLoading(true);
@@ -57,7 +56,6 @@ export default function Login( { auth, history } ) {
       history.push('/');
       setIsLoading(false);
     } catch (e) {
-      console.log(e);
       setIsLoading(false);
       setErrorCode(e.code);
     }
@@ -69,22 +67,6 @@ export default function Login( { auth, history } ) {
       Forgot password?
     </Link>
   );*/
-  // TODO
-  /*const RememberMe = (
-    <FormControlLabel
-      control={<Checkbox value="remember" color="primary" />}
-      label="Remember me"
-    />
-  );*/
-  const resendVerificationCode = () => {
-    Auth.resendSignUp(email).then(() => {
-      const state = { 'email': email, 'password': password };
-      history.push('/signup/verify', state);
-      setErrorCode(null);
-    }).catch(e => {
-      alert(e);
-    });
-  }
 
   const LoginForm = (
     <Container component="main" maxWidth="xs">
@@ -115,6 +97,8 @@ export default function Login( { auth, history } ) {
             error={ errorCode != null }
             helperText={errorCode}
           />
+          {errorCode==AwsErrors.USER_NOT_CONFIRMED &&
+          <VerifyEmailButton history={history} user={{email: email, password: password}} setErrorCode={setErrorCode}/>}
           <TextField
             variant="outlined"
             margin="normal"
@@ -132,6 +116,7 @@ export default function Login( { auth, history } ) {
             }}
             error={ errorCode != null }
             helperText={errorCode}
+            disabled={errorCode == AwsErrors.USER_NOT_CONFIRMED}
           />
           <Button
             type="submit"
@@ -139,7 +124,7 @@ export default function Login( { auth, history } ) {
             variant="contained"
             color="primary"
             className={classes.submit}
-            disabled={isLoading}
+            disabled={isLoading || (errorCode ==  AwsErrors.USER_NOT_CONFIRMED)}
           >
             {isLoading ?  <CircularProgress color="secondary" size={25} /> : 'Sign In'}
           </Button>
@@ -153,15 +138,6 @@ export default function Login( { auth, history } ) {
             </Grid>
           </Grid>
         </form>
-        {errorCode==USER_ALREADY_EXIST_ERROR &&
-          <Button
-              fullWidth
-              variant="contained"
-              color="secondary"
-              onClick={() => resendVerificationCode()}
-          >
-            Resend verification code to email
-          </Button>}
       </div>
       <Box mt={8}>
         <Copyright />

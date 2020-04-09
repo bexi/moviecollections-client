@@ -14,8 +14,9 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 
-import SignupConfirmation from './SignupConfirmation';
+import VerifyEmailButton from "../components/VerifyEmailButton";
 import Copyright from '../components/Copyright';
+import AwsErrors from '../utils/aws-errors';
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -46,8 +47,6 @@ export default function SignUp({ auth, history } ) {
 
   const [loading, setLoading] = useState(false);
 
-  const USER_ALREADY_EXIST_ERROR = 'UsernameExistsException';
-  const INVALID_PASSWORD_ERROR = 'InvalidParameterException';
   const PASSWORDS_NOT_MATCH_ERROR = 'PasswordsDoesNotMatchException';
 
   const classes = useStyles();
@@ -77,24 +76,14 @@ export default function SignUp({ auth, history } ) {
       });
       history.push('/signup/verify', {email:email, password: password});
     } catch (e) {
-      setErrorCode(e.name);
+      setErrorCode(e.code);
     }
     setLoading(false);
   }
 
   const getPasswordHelpText = () => {
     if (errorCode == PASSWORDS_NOT_MATCH_ERROR) return 'Passwords does not match';
-    if (errorCode == INVALID_PASSWORD_ERROR) return 'Password does not match the critieras';
-  }
-
-  const resendVerificationCode = () => {
-    Auth.resendSignUp(email).then(() => {
-      const state = { 'email': email, 'password': password };
-      history.push('/signup/verify', state);
-      setErrorCode(null);
-    }).catch(e => {
-      alert(e);
-    });
+    if (errorCode == AwsErrors.INVALID_PASSWORD_SETUP || AwsErrors.INVALID_PARAMETER ) return 'Password does not match the critieras';
   }
 
   const SignupForm = (
@@ -123,20 +112,13 @@ export default function SignUp({ auth, history } ) {
                   setEmail(e.target.value);
                   setErrorCode(null);
                 }}
-                error={ errorCode == USER_ALREADY_EXIST_ERROR }
-                helperText={errorCode == USER_ALREADY_EXIST_ERROR && 'Account with that email already exist. Need to resend verification code to email?'}
+                error={ errorCode == AwsErrors.USER_ALREADY_EXIST }
+                helperText={errorCode == AwsErrors.USER_ALREADY_EXIST && 'Account with that email already exist. Need to resend verification code to email?'}
               />
             </Grid>
-            {errorCode==USER_ALREADY_EXIST_ERROR &&
+            {errorCode== AwsErrors.USER_ALREADY_EXIST &&
             <Grid item xs={12}>
-              <Button
-                  fullWidth
-                  variant="contained"
-                  color="secondary"
-                  onClick={() => resendVerificationCode()}
-              >
-                Resend verification code to email
-              </Button>
+              <VerifyEmailButton history={history} user={{email: email, password: password}} setErrorCode={setErrorCode}/>
             </Grid>}
             <Grid item xs={12}>
                 Passwords must be at least 8 characters in length. <br/>
@@ -157,8 +139,8 @@ export default function SignUp({ auth, history } ) {
                   setPassword(e.target.value);
                   setErrorCode(null);
                 }}
-                error={ errorCode == PASSWORDS_NOT_MATCH_ERROR || errorCode == INVALID_PASSWORD_ERROR }
-                disabled={ errorCode == USER_ALREADY_EXIST_ERROR }
+                error={ errorCode == PASSWORDS_NOT_MATCH_ERROR || errorCode == AwsErrors.INVALID_PASSWORD_SETUP || errorCode == AwsErrors.INVALID_PARAMETER  }
+                disabled={ errorCode == AwsErrors.USER_ALREADY_EXIST }
               />
             </Grid>
             <Grid item xs={12}>
@@ -176,9 +158,9 @@ export default function SignUp({ auth, history } ) {
                   setPasswordConfirm(e.target.value);
                   setErrorCode(null);
                 }}
-                error={ errorCode == PASSWORDS_NOT_MATCH_ERROR || errorCode == INVALID_PASSWORD_ERROR }
+                error={ errorCode == PASSWORDS_NOT_MATCH_ERROR || errorCode == AwsErrors.INVALID_PASSWORD_SETUP || errorCode == AwsErrors.INVALID_PARAMETER }
                 helperText={getPasswordHelpText()}
-                disabled={ errorCode == USER_ALREADY_EXIST_ERROR }
+                disabled={ errorCode == AwsErrors.USER_ALREADY_EXIST }
               />
             </Grid>
           </Grid>
@@ -188,7 +170,7 @@ export default function SignUp({ auth, history } ) {
             variant="contained"
             color="primary"
             className={classes.submit}
-            disabled={ errorCode == USER_ALREADY_EXIST_ERROR }
+            disabled={ errorCode == AwsErrors.USER_ALREADY_EXIST }
           >
             Sign Up
           </Button>

@@ -37,6 +37,7 @@ const useStyles = makeStyles((theme) => ({
 
 const ConfirmationForm = ({auth, history, location}) => {
     const [confirmationCode, setConfirmationCode] = useState('');
+    const [errorCode, setErrorCode]= useState(null);
 
     const classes = useStyles();
 
@@ -52,12 +53,15 @@ const ConfirmationForm = ({auth, history, location}) => {
         //setLoading(true);
         try {
             await Auth.confirmSignUp(email, confirmationCode);
-            await Auth.signIn(email, password);
-
-            auth.userHasAuthenticated(true);
-            history.push("/");
+            try{
+                await Auth.signIn(email, password);
+                auth.userHasAuthenticated(true);
+                history.push("/");
+            } catch (e) {
+                history.push("/login");
+            }
         } catch (e) {
-            history.push("/login");
+            setErrorCode(e.code);
         }
     }
 
@@ -86,7 +90,12 @@ const ConfirmationForm = ({auth, history, location}) => {
                                 label="Confirmation Code from email"
                                 autoFocus
                                 value={confirmationCode}
-                                onChange={(e) => setConfirmationCode(e.target.value)}
+                                onChange={(e) => {
+                                    setConfirmationCode(e.target.value);
+                                    setErrorCode(null);
+                                }}
+                                error={errorCode}
+                                helperText={errorCode}
                             />
                         </Grid>
                     </Grid>
