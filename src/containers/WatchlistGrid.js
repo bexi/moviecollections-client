@@ -4,6 +4,8 @@ import Grid from '@material-ui/core/Grid';
 import { makeStyles } from '@material-ui/core/styles';
 
 import MovieCard from '../components/MovieCard'
+import Typography from "@material-ui/core/Typography";
+import CardContent from "@material-ui/core/CardContent";
 
 const useStyles = makeStyles((theme) => ({
     tableRow: {
@@ -29,11 +31,19 @@ export default ({watchlistItems, updateWatchlist }) => {
         }
         return paired;
     }
+
+    const NoItems = (
+        <Grid item xs={12} className={classes.tableRow}>
+            <Typography variant="h6" component="h6">
+                Watchlist is empty
+            </Typography>
+        </Grid>);
+
     // each row should contain two movie cards (for now)
     const pairedItems = pairwatchlistItems(watchlistItems);
     return (
         <Grid container spacing={2}>
-            {pairedItems.map((pair, i) => (
+            {watchlistItems.length>0 ? (pairedItems.map((pair, i) => (
                 <Grid item xs={12} className={classes.tableRow} key={i}>
                     <Grid container spacing={1}>
                         { pair[0] && <Grid item xs={6} className={classes.movieRow}>
@@ -49,7 +59,7 @@ export default ({watchlistItems, updateWatchlist }) => {
                         </Grid>}
                     </Grid>
                 </Grid>
-            ))}
+            ))): NoItems}
         </Grid>
     );
 }
