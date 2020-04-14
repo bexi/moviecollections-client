@@ -1,26 +1,42 @@
 # MovieCollections Client
 App to collect which movies/series that you have seen and want to see.
 
-## Features
-* Make the app more mobile friendly
-* Add user feedback when loading (ex deleting or adding movie item)
-* Think about UX - should movies/series be seperated or not
-* Switch for showing if a movie is watched or not
-* Add tests 
-* Signup - resend code mode 
-* Signup/Login - better error messages 
-* View layout switch (list and cards)
+## Features 
+* Login / Signup (AWS Cognito)
+    - Login
+    - Signup with email verification
+    - Resend verification code 
+    - User feedback when loggin in / signup 
+    - TODO: forgot password 
+    
+* Watchlist 
+    - V1 layout (movie cards) 
+    - Connect to imdb data 
+    - Add movie (from Movie Search)
+    - Delete movie
+    - TODO: Update movie 
+    - TODO: View layout switch (list and cards)
+    - TODO Think about UX - should movies/series be seperated or not
+           (Switch for showing if a movie is watched or not?)
+    - TODO: User feedback when loading 
+           
+* Movie Search
+    - Search with dummy data 
+    - Connect to imdb data base 
+    - Create custom dropdown menu with movie info 
+    - TODO: Dropdown menu - listen to click outside menu 
+    - TODO: User feedback when loading 
 
-* Update movielist with new data from OMDB (image, description etc) - done
-* Searchbar Menu - show search results (title, image, description, imdb rating) - done 
-* Connect search bar to OMDB - done 
-* Delete movie from movie list - done
-* Be able to add a movie title and view it in the my movie list - done
-* Setup connection to Lambda/ApiGateway so requests can be done - done
-* Sign in (aws cognito) - done
-* Sign up (aws cognito) - done
-* Navigation bar/menu - done
-* App shell - done
+* General App
+    - Navigation bar 
+    - Setup connection to Lambda/ApiGateway so requests can be done 
+    - TODO: Add tests
+    - TODO: Make the app more mobile friendly
+
+* CI/CD 
+    - Launch to aws s3 bucket with correct route 53 settings
+    - TODO: Use Circle CI (or similar) to push the build to the s3 bucket 
+
 
 ## Available Scripts
 

@@ -2,10 +2,9 @@ import React, { useState, useEffect } from "react";
 
 import Grid from '@material-ui/core/Grid';
 import { makeStyles } from '@material-ui/core/styles';
+import Typography from "@material-ui/core/Typography";
 
 import MovieCard from '../components/MovieCard'
-import Typography from "@material-ui/core/Typography";
-import CardContent from "@material-ui/core/CardContent";
 
 const useStyles = makeStyles((theme) => ({
     tableRow: {
@@ -41,25 +40,28 @@ export default ({watchlistItems, updateWatchlist }) => {
 
     // each row should contain two movie cards (for now)
     const pairedItems = pairwatchlistItems(watchlistItems);
+
+    const CardGrid = (pairedItems.map((pair, i) => (
+        <Grid item xs={12} className={classes.tableRow} key={i}>
+            <Grid container spacing={1}>
+                { pair[0] && <Grid item xs={6} className={classes.movieRow}>
+                    <MovieCard
+                        watchlistItem={pair[0]}
+                        updateWatchlist={updateWatchlist}
+                    /></Grid>}
+                { pair[1] && <Grid item xs={6} className={classes.movieRow}>
+                    <MovieCard
+                        watchlistItem={pair[1]}
+                        updateWatchlist={updateWatchlist}
+                    />
+                </Grid>}
+            </Grid>
+        </Grid>
+    )));
+
     return (
         <Grid container spacing={2}>
-            {watchlistItems.length>0 ? (pairedItems.map((pair, i) => (
-                <Grid item xs={12} className={classes.tableRow} key={i}>
-                    <Grid container spacing={1}>
-                        { pair[0] && <Grid item xs={6} className={classes.movieRow}>
-                            <MovieCard
-                                watchlistItem={pair[0]}
-                                updateWatchlist={updateWatchlist}
-                            /></Grid>}
-                        { pair[1] && <Grid item xs={6} className={classes.movieRow}>
-                            <MovieCard
-                                watchlistItem={pair[1]}
-                                updateWatchlist={updateWatchlist}
-                            />
-                        </Grid>}
-                    </Grid>
-                </Grid>
-            ))): NoItems}
+            {watchlistItems.length>0 ? CardGrid : NoItems}
         </Grid>
     );
 }
