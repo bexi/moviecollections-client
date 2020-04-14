@@ -4,8 +4,8 @@ import TextField from '@material-ui/core/TextField';
 import Box from '@material-ui/core/Box';
 import {makeStyles} from "@material-ui/core/styles";
 import {fade} from "@material-ui/core/styles/colorManipulator";
-import {IMDB_GET} from "../utils/imdb-api-utils";
-import {API_POST} from "../utils/api-utils";
+import {IMDB_GET} from "../../utils/imdb-api-utils";
+import {API_POST} from "../../utils/api-utils";
 import Typography from "@material-ui/core/Typography";
 
 const useStyles = makeStyles((theme) => ({

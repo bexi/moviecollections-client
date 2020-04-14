@@ -14,9 +14,9 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 
-import VerifyEmailButton from "../components/VerifyEmailButton";
-import Copyright from '../components/Copyright';
-import AwsErrors from '../utils/aws-errors';
+import VerifyEmailButton from "../VerifyEmail/VerifyEmailButton";
+import Copyright from '../Copyright';
+import AwsErrors from '../../utils/aws-errors';
 
 const useStyles = makeStyles((theme) => ({
   paper: {

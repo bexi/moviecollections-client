@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Auth } from "aws-amplify";
 import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
 
-import Navigation from './containers/Navigation';
+import Navigation from './components/Navigation';
 import Routes from './routes';
 
 function App() {

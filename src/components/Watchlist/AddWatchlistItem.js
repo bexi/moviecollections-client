@@ -7,7 +7,7 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 
-import { API_POST } from "../utils/api-utils";
+import { API_POST } from "../../utils/api-utils";
 
 const useStyles = makeStyles((theme) => ({
   paper: {

@@ -15,9 +15,9 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 
 import { Auth } from "aws-amplify";
 
-import Copyright from '../components/Copyright';
-import AwsErrors from '../utils/aws-errors';
-import VerifyEmailButton from "../components/VerifyEmailButton";
+import Copyright from '../Copyright';
+import AwsErrors from '../../utils/aws-errors';
+import VerifyEmailButton from "../VerifyEmail/VerifyEmailButton";
 
 const useStyles = makeStyles((theme) => ({
   paper: {

@@ -13,7 +13,7 @@ import Button from "@material-ui/core/Button";
 import Box from "@material-ui/core/Box";
 import {makeStyles} from "@material-ui/core/styles";
 
-import Copyright from "../components/Copyright";
+import Copyright from "../Copyright";
 
 const useStyles = makeStyles((theme) => ({
     paper: {

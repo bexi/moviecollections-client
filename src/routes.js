@@ -1,11 +1,11 @@
 import React from "react";
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 
-import Login from './containers/Login';
-import Signup from './containers/Signup';
-import SignupConfirmation from './containers/SignupConfirmation';
-import Main from './containers/Main';
-import Browse from './containers/Browse';
+import Login from './components/Login/Login';
+import Signup from './components/Signup/Signup';
+import SignupConfirmation from './components/VerifyEmail/SignupConfirmation';
+import Main from './components/Watchlist/Main';
+import Browse from './components/Browse';
 import AppliedRoute from "./components/AppliedRoute";
 
 function Routes(props) {

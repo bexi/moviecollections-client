@@ -6,11 +6,11 @@ import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 //import Switch from '@material-ui/core/Switch';
 
-import {API_GET} from '../utils/api-utils'
+import {API_GET} from '../../utils/api-utils'
 import WatchlistGrid from './WatchlistGrid';
-import SearchWatchlistItem from '../components/SearchWatchlistItem';
-import WatchlistList from '../components/WatchlistList';
-import WatchlistFilters from "../components/WatchlistFilters";
+import SearchWatchlistItem from './SearchWatchlistItem';
+import WatchlistList from './WatchlistList';
+import WatchlistFilters from "./WatchlistFilters";
 
 const useStyles = makeStyles((theme) => ({
   paper: {

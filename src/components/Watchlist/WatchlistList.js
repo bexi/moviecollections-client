@@ -4,7 +4,7 @@ import Grid from '@material-ui/core/Grid';
 import { makeStyles } from '@material-ui/core/styles';
 import Typography from "@material-ui/core/Typography";
 
-import MovieCard from '../components/MovieCard'
+import MovieRow from './MovieRow'
 
 const useStyles = makeStyles((theme) => ({
     tableRow: {
@@ -23,14 +23,6 @@ const useStyles = makeStyles((theme) => ({
 export default ({watchlistItems, updateWatchlist }) => {
     const classes = useStyles();
 
-    const pairwatchlistItems = (items) => {
-        let paired = [];
-        for(let i=0; i < (items.length ); i=i+2){
-            paired[i] = [items[i], items[i+1]];
-        }
-        return paired;
-    }
-
     const NoItems = (
         <Grid item xs={12} className={classes.tableRow}>
             <Typography variant="h6" component="h6">
@@ -38,24 +30,12 @@ export default ({watchlistItems, updateWatchlist }) => {
             </Typography>
         </Grid>);
 
-    // each row should contain two movie cards (for now)
-    const pairedItems = pairwatchlistItems(watchlistItems);
-
-    const CardGrid = (pairedItems.map((pair, i) => (
+    const CardGrid = (watchlistItems.map((item, i) => (
         <Grid item xs={12} className={classes.tableRow} key={i}>
-            <Grid container spacing={1}>
-                { pair[0] && <Grid item xs={6} className={classes.movieRow}>
-                    <MovieCard
-                        watchlistItem={pair[0]}
-                        updateWatchlist={updateWatchlist}
-                    /></Grid>}
-                { pair[1] && <Grid item xs={6} className={classes.movieRow}>
-                    <MovieCard
-                        watchlistItem={pair[1]}
-                        updateWatchlist={updateWatchlist}
-                    />
-                </Grid>}
-            </Grid>
+            <MovieRow
+                watchlistItem={item}
+                updateWatchlist={updateWatchlist}
+            />
         </Grid>
     )));
 
