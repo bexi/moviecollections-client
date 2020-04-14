@@ -9,6 +9,7 @@ import Container from '@material-ui/core/Container';
 import {API_GET} from '../utils/api-utils'
 import WatchlistGrid from './WatchlistGrid';
 import SearchWatchlistItem from '../components/SearchWatchlistItem';
+import WatchlistList from '../components/WatchlistList';
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -24,6 +25,7 @@ const useStyles = makeStyles((theme) => ({
 export default (props) => {
   const [watchlistItems, setWatchlistItems] = useState([]);
   const [initialLoad, setInitialLoad] = useState(true);
+  const [showListView, setShowListView] = useState(false);
 
   // TODO: Switch for showing watched/not watched movies
   /*const [state, setState] = useState({
@@ -52,16 +54,26 @@ export default (props) => {
     }
   }
 
+  const renderWatchlist = () => {
+    return showListView ?
+        <WatchlistList
+          watchlistItems={watchlistItems}
+          updateWatchlist={updateWatchlist}
+        /> :
+        <WatchlistGrid
+            watchlistItems={watchlistItems}
+            updateWatchlist={updateWatchlist}
+        />;
+  }
+
+  console.log(showListView);
   // TODO: Loader
   const MainContent = (
     <Container component="main" maxWidth="md">
       <CssBaseline />
       <SearchWatchlistItem updateWatchlist={updateWatchlist} />
       <div className={classes.paper}>
-        <WatchlistGrid
-            watchlistItems={watchlistItems}
-            updateWatchlist={updateWatchlist}
-        />
+        {renderWatchlist()}
       </div>
     </Container>
   );

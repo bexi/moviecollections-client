@@ -8,12 +8,8 @@ import CardMedia from '@material-ui/core/CardMedia';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import CardHeader from '@material-ui/core/CardHeader';
-import MoreVertIcon from '@material-ui/icons/DeleteOutlined';
-import IconButton from '@material-ui/core/IconButton';
 
-import { API_DELETE } from "../utils/api-utils";
-
-const img = require('../static/example-movie-image.jpg');
+import DeleteMovieIcon from "./DeleteMovieIcon";
 
 const useStyles = makeStyles({
   root: {
@@ -28,23 +24,11 @@ export default function MediaCard({ watchlistItem, updateWatchlist }) {
   const classes = useStyles();
   const posterUrl =  `https://image.tmdb.org/t/p/original/${watchlistItem.posterUrl}`
 
-  const handleDelete = async(event) => {
-    event.preventDefault();
-    try {
-      await API_DELETE(`/usermovie/${watchlistItem.movieId}`);
-      updateWatchlist();
-    } catch (e) {
-      alert(e);
-    }
-  }
-
   return (
     <Card className={classes.root}>
       <CardHeader
        action={
-         <IconButton aria-label="delete" onClick={handleDelete}>
-           <MoreVertIcon />
-         </IconButton>
+           <DeleteMovieIcon movieId={watchlistItem.movieId} updateWatchlist={updateWatchlist} />
        }
        title={watchlistItem.title}
        />
