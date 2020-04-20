@@ -1,14 +1,13 @@
-import React from 'react';
+import React, {useState} from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import Grid from "@material-ui/core/Grid";
 import TextField from "@material-ui/core/TextField";
-import Slider from '@material-ui/core/Slider';
-import StarBorderIcon from '@material-ui/icons/StarBorder';
 import StarIcon from '@material-ui/icons/Star';
 import CheckBoxIcon from '@material-ui/icons/CheckBox';
 import IconButton from "@material-ui/core/IconButton";
 
+import RatingPopOver from "./Rating";
 import DeleteMovieIcon from "./DeleteMovieIcon";
 
 const useStyles = makeStyles({
@@ -25,6 +24,8 @@ const useStyles = makeStyles({
 
 export default function MediaCard({ watchlistItem, updateWatchlist, watched }) {
     const classes = useStyles();
+    const [note, setNote] = useState(null);
+
     const posterUrl =  `https://image.tmdb.org/t/p/original/${watchlistItem.posterUrl}`
 
     const ImageCol = (
@@ -64,11 +65,13 @@ export default function MediaCard({ watchlistItem, updateWatchlist, watched }) {
 
     const MovieRating = (
         <Grid item xs={12} style={{marginTop:'-2%'}}>
-            <Grid container spacing={1}>
-                <Grid item style={{paddingRight:'0%'}}><StarIcon /></Grid>
-                <Grid item style={{marginTop:'1%', paddingLeft:'0%'}}>{watchlistItem.imdbRating}</Grid>
-                <Grid item ><Typography variant="h5" color="textSecondary" component="h5" style={{display:'inline'}}> | </Typography></Grid>
-                <Grid item > <StarBorderIcon /></Grid>
+            <Grid container>
+                <Grid item >
+                    <IconButton disabled>
+                        <Typography variant="body1" style={{display:'inline'}}>IMDB: {watchlistItem.imdbRating}</Typography>
+                        <StarIcon />
+                    </IconButton></Grid>
+                <Grid item > <RatingPopOver id={watchlistItem.movieId} fetchedRating={watchlistItem.rating} updateWatchlist={updateWatchlist}/></Grid>
             </Grid>
         </Grid>
     );
@@ -86,9 +89,9 @@ export default function MediaCard({ watchlistItem, updateWatchlist, watched }) {
             />
         </Grid>
     );
+
     // TODO -- "more info" icon which shows e.g. movie description
     // TODO -- watched or not
-    // TODO -- rating -- popover
     // TODO -- comment update
     const MovieRowWatched = (
         <Grid container spacing={1} className={classes.movieRow}>
