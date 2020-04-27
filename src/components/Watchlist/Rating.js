@@ -8,7 +8,7 @@ import StarIcon from '@material-ui/icons/Star';
 import Typography from "@material-ui/core/Typography";
 import {API_PUT} from "../../utils/api-utils";
 
-export default function RatingPopOver({id, fetchedRating, updateWatchlist}) {
+export default function RatingPopOver({ watchlistItem, fetchedRating, updateWatchlist}) {
     const [anchorEl, setAnchorEl] = React.useState( null);
     const [rating, setRating] = useState(fetchedRating || null);
 
@@ -51,7 +51,7 @@ export default function RatingPopOver({id, fetchedRating, updateWatchlist}) {
                         onChange={async(event, newValue) => {
                             if(newValue!=-1) {
                                 try {
-                                    let res = await API_PUT(`/usermovie/${id}`, { rating: newValue});
+                                    let res = await API_PUT(`/usermovie/${watchlistItem.movieId}`, { watched: watchlistItem.watched, note: watchlistItem.note, rating: newValue });
                                     setRating(newValue);
                                     updateWatchlist();
                                 } catch (e) {

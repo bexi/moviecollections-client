@@ -35,7 +35,6 @@ export default ({watchlistItems, updateWatchlist }) => {
             <MovieRow
                 watchlistItem={item}
                 updateWatchlist={updateWatchlist}
-                watched={true}
             />
         </Grid>
     )));
