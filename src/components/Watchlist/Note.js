@@ -9,8 +9,7 @@ export default function Note({id, fetchedNote, updateWatchlist}) {
     const saveNote = async() => {
         if(note!=null && note.length>0) {
             try {
-                let res = await API_PUT(`/usermovie/${id}`, { note: note});
-                console.log(res);
+                await API_PUT(`/usermovie/${id}`, { note: note});
                 setNote(note);
                 updateWatchlist();
             } catch (e) {
@@ -19,7 +18,7 @@ export default function Note({id, fetchedNote, updateWatchlist}) {
             }
         }
     }
-//setNote(event.target.value)
+
     return (
         <ClickAwayListener onClickAway={saveNote}>
             <TextField
