@@ -22,7 +22,6 @@ export default function RatingPopOver({id, fetchedRating, updateWatchlist}) {
 
     const open = Boolean(anchorEl);
 
-    console.log('rating:',rating);
     return (
         <div>
             <IconButton aria-describedby={'rating-button'} onClick={handleClick}>
