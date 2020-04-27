@@ -9,6 +9,7 @@ import IconButton from "@material-ui/core/IconButton";
 
 import RatingPopOver from "./Rating";
 import DeleteMovieIcon from "./DeleteMovieIcon";
+import Note from "./Note";
 
 const useStyles = makeStyles({
     movieRow: {
@@ -78,15 +79,7 @@ export default function MediaCard({ watchlistItem, updateWatchlist, watched }) {
 
     const MovieComment = (
         <Grid item xs={12} style={{paddingTop:'2%'}}>
-            <TextField
-                id="outlined-multiline-static"
-                label="Your movie notes"
-                fullWidth
-                multiline
-                rows={3}
-                defaultValue="What is your thoughts about this movie?"
-                variant="outlined"
-            />
+            <Note id={watchlistItem.movieId} fetchedNote={watchlistItem.note} updateWatchlist={updateWatchlist}/>
         </Grid>
     );
 
