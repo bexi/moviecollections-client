@@ -81,7 +81,7 @@ export default function MediaCard({ watchlistItem, updateWatchlist }) {
         <Grid item xs={12} style={{marginTop:'-2%'}}>
             <Grid container>
                 <Grid item >
-                    <IconButton disabled>
+                    <IconButton disabled style={{paddingLeft:0}}>
                         <Typography variant="body1" style={{display:'inline'}}>IMDB: {watchlistItem.imdbRating}</Typography>
                         <StarIcon />
                     </IconButton></Grid>
@@ -91,13 +91,13 @@ export default function MediaCard({ watchlistItem, updateWatchlist }) {
     );
 
     const MovieComment = (
-        <Grid item xs={12} style={{paddingTop:'2%'}}>
+        <Grid item xs={12} style={{paddingRight:'10%', paddingTop:'3%'}}>
             <Note watchlistItem={watchlistItem} fetchedNote={watchlistItem.note} updateWatchlist={updateWatchlist}/>
         </Grid>
     );
 
     const MovieDescription = (
-        <Grid item xs={12} >
+        <Grid item xs={12} style={{paddingRight:'10%'}}>
             <p>{watchlistItem.description}</p>
         </Grid>
     );
