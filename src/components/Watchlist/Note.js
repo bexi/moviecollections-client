@@ -3,8 +3,8 @@ import {API_PUT} from "../../utils/api-utils";
 import TextField from "@material-ui/core/TextField";
 import ClickAwayListener from '@material-ui/core/ClickAwayListener';
 
-export default function Note({watchlistItem, fetchedNote, updateWatchlist}) {
-    const [note, setNote] = useState(fetchedNote || null);
+export default function Note({watchlistItem, updateWatchlist}) {
+    const [note, setNote] = useState(watchlistItem.note || null);
 
     const saveNote = async() => {
         if(note!=null && note.length>=0) {
