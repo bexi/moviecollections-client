@@ -7,6 +7,7 @@ import {fade} from "@material-ui/core/styles/colorManipulator";
 import {IMDB_GET} from "../../utils/imdb-api-utils";
 import {API_POST} from "../../utils/api-utils";
 import Typography from "@material-ui/core/Typography";
+import ClickAwayListener from '@material-ui/core/ClickAwayListener';
 
 const useStyles = makeStyles((theme) => ({
     centerContent: {
@@ -68,9 +69,14 @@ const SearchWatchlistItem = ({ updateWatchlist }) => {
         }
     }
 
+    const closeMenu = () => {
+        setSearchResults([]);
+    }
+
     const searchResultRow = (item) => {
         const posterUrl =  `https://image.tmdb.org/t/p/original/${item['poster_path']}`
         return(
+            <ClickAwayListener onClickAway={closeMenu}>
             <Box key={item.id}
                 bgcolor="background.paper"
                 color="text.primary"
@@ -97,7 +103,7 @@ const SearchWatchlistItem = ({ updateWatchlist }) => {
                         </Grid>
                     </Grid>
                 </Grid>
-            </Box>
+            </Box></ClickAwayListener>
         );
     }
 

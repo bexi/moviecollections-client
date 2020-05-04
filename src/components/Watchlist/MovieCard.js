@@ -14,14 +14,13 @@ import Note from "./Note";
 
 const useStyles = makeStyles({
   root: {
-    maxWidth: '80%',
+    width: '80%',
   },
   media: {
     height: 160,
   },
 });
 
-// TODO: warning is thrown because 'MovieRatings' contains buttons
 export default function MediaCard({ watchlistItem, updateWatchlist }) {
   const classes = useStyles();
   const posterUrl =  `https://image.tmdb.org/t/p/original/${watchlistItem.posterUrl}`;

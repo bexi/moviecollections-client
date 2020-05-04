@@ -4,7 +4,6 @@ import { Redirect } from "react-router-dom";
 import CssBaseline from '@material-ui/core/CssBaseline';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
-//import Switch from '@material-ui/core/Switch';
 
 import {API_GET} from '../../utils/api-utils'
 import WatchlistGrid from './WatchlistGrid';
@@ -29,10 +28,7 @@ export default (props) => {
   const [showListView, setShowListView] = useState(true);
 
   // TODO: Switch for showing watched/not watched movies
-  /*const [state, setState] = useState({
-    checkedA: true,
-    checkedB: true,
-  });*/
+  const [watchedSwitched, setWatchedSwitch] = useState(false);
 
   const classes = useStyles();
 
@@ -56,24 +52,30 @@ export default (props) => {
   }
 
   const renderWatchlist = () => {
+    const items = watchlistItems.filter((item) => {
+      if(!watchedSwitched) return (item.watched == watchedSwitched || item.watched == null);
+      else return item.watched==watchedSwitched;
+    })
+
     return showListView ?
         <WatchlistList
-          watchlistItems={watchlistItems}
+          watchlistItems={items}
           updateWatchlist={updateWatchlist}
         /> :
         <WatchlistGrid
-            watchlistItems={watchlistItems}
+            watchlistItems={items}
             updateWatchlist={updateWatchlist}
         />;
   }
 
-  console.log(showListView);
   // TODO: Loader
+  console.log(watchedSwitched);
+
   const MainContent = (
     <Container component="main" maxWidth="md">
       <CssBaseline />
       <SearchWatchlistItem updateWatchlist={updateWatchlist} />
-      <WatchlistFilters showListView={showListView} setShowListView={setShowListView} />
+      <WatchlistFilters showListView={showListView} setShowListView={setShowListView} watchedSwitch={watchedSwitched} setWatchedSwitch={setWatchedSwitch}/>
       <div className={classes.paper}>
         {renderWatchlist()}
       </div>
