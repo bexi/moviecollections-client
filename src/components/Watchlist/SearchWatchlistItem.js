@@ -46,13 +46,11 @@ const SearchWatchlistItem = ({ updateWatchlist }) => {
     const searchImdb = () => {
         const url = 'https://api.themoviedb.org/4/search/movie?&language=en-US&query='
         IMDB_GET(`https://api.themoviedb.org/4/search/movie?&language=en-US&query=${searchItem}`).then((res) => {
-            console.log(res);
             setSearchResults(res.data.results.slice(0,5));
         });
     }
 
     const addWatchlistItemToDB = async(item) => {
-        console.log('add item to watchlist');
         try {
             await API_POST('/usermovies', {
                 imdbId: item.id,
@@ -62,8 +60,8 @@ const SearchWatchlistItem = ({ updateWatchlist }) => {
                 imdbRating: item['vote_average']
             });
             updateWatchlist();
-            setSearchItem('');
             setSearchResults([]);
+            setSearchItem('');
         } catch (e) {
             alert(e);
         }
@@ -71,6 +69,7 @@ const SearchWatchlistItem = ({ updateWatchlist }) => {
 
     const closeMenu = () => {
         setSearchResults([]);
+        setSearchItem('');
     }
 
     const searchResultRow = (item) => {
@@ -124,17 +123,16 @@ const SearchWatchlistItem = ({ updateWatchlist }) => {
     return (
         <>
             <div className={classes.centerContent}  >
-                <Typography component="h1" variant="h5">
-                    Watchlist
-                </Typography>
                 <TextField
+                    placeholder="Placeholder"
                     id="watchlist-search"
                     variant="outlined"
+                    autoComplete={'off'}
                     className={classes.watchlistSearch}
                     value={searchItem}
                     onChange={(e) => {
                         setSearchItem(e.target.value);
-                        if(searchItem.length>4){
+                        if(searchItem.length>1){
                             searchImdb();
                         }else{
                             setSearchResults([]);

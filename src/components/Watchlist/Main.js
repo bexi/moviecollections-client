@@ -10,6 +10,7 @@ import WatchlistGrid from './WatchlistGrid';
 import SearchWatchlistItem from './SearchWatchlistItem';
 import WatchlistList from './WatchlistList';
 import WatchlistFilters from "./WatchlistFilters";
+import Typography from "@material-ui/core/Typography";
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -68,14 +69,21 @@ export default (props) => {
         />;
   }
 
-  // TODO: Loader
-  console.log(watchedSwitched);
+  const renderTitle = () => {
+    let title = watchedSwitched ? 'Watched Movies' : 'Watchlist';
+    return(
+        <Typography component="h1" variant="h5" style={{textAlign:'center', paddingTop:'2%'}}>
+          {title}
+        </Typography>)
+  }
 
+  // TODO: Loader
   const MainContent = (
     <Container component="main" maxWidth="md">
       <CssBaseline />
-      <SearchWatchlistItem updateWatchlist={updateWatchlist} />
+      {renderTitle()}
       <WatchlistFilters showListView={showListView} setShowListView={setShowListView} watchedSwitch={watchedSwitched} setWatchedSwitch={setWatchedSwitch}/>
+      {!watchedSwitched && <SearchWatchlistItem updateWatchlist={updateWatchlist} />}
       <div className={classes.paper}>
         {renderWatchlist()}
       </div>
