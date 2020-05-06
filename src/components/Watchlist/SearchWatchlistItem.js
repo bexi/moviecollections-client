@@ -124,7 +124,7 @@ const SearchWatchlistItem = ({ updateWatchlist }) => {
         <>
             <div className={classes.centerContent}  >
                 <TextField
-                    placeholder="Placeholder"
+                    placeholder="Search for a movie"
                     id="watchlist-search"
                     variant="outlined"
                     autoComplete={'off'}
