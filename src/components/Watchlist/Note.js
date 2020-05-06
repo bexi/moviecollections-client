@@ -25,7 +25,7 @@ export default function Note({watchlistItem, updateWatchlist}) {
                 id="outlined-multiline-static"
                 label="Your movie notes"
                 fullWidth
-                rows={3}
+                rows={2}
                 variant="outlined"
                 multiline
                 value={note || ''}

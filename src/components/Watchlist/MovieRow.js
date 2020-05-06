@@ -16,7 +16,17 @@ const useStyles = makeStyles({
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
+        maxHeight:'150px',
+        overflow:'hidden'
     },
+    movie_description_note: {
+        display: 'flex',
+        flexGrow: 1,
+        overflow: 'auto',
+        maxHeight:'60px',
+        marginRight:'2%',
+        marginTop:0,
+    }
 });
 
 export default function MediaCard({ watchlistItem, updateWatchlist }) {
@@ -25,8 +35,8 @@ export default function MediaCard({ watchlistItem, updateWatchlist }) {
     const posterUrl =  `https://image.tmdb.org/t/p/original/${watchlistItem.posterUrl}`;
 
     const ImageCol = (
-        <Grid item xs={4} className={classes.imageColumn}>
-            <img style={{width:'50%', borderRadius:'2%'}} src={posterUrl} />
+        <Grid item xs={3} className={classes.imageColumn}>
+            <img style={{height:'100%', borderRadius:'2%'}} src={posterUrl} />
         </Grid>
     );
 
@@ -43,14 +53,16 @@ export default function MediaCard({ watchlistItem, updateWatchlist }) {
         </Grid>
     );
 
+    // style={{paddingRight:'10%', paddingTop:'3%'}}
     const MovieComment = (
-        <Grid item xs={12} style={{paddingRight:'10%', paddingTop:'3%'}}>
+        <Grid item xs={12} >
             <Note watchlistItem={watchlistItem} updateWatchlist={updateWatchlist}/>
         </Grid>
     );
 
+    // style={{paddingRight:'10%'}}
     const MovieDescription = (
-        <Grid item xs={12} style={{paddingRight:'10%'}}>
+        <Grid item xs={12} className={classes.movie_description_note}>
             <p>{watchlistItem.description}</p>
         </Grid>
     );
@@ -59,14 +71,15 @@ export default function MediaCard({ watchlistItem, updateWatchlist }) {
         <Grid container spacing={1} className={classes.movieRow}>
             {ImageCol}
             <Grid item xs={8}>
-                <Grid container spacing={1}>
+                <Grid container spacing={0}>
                     {MovieTitleAndActionButtons}
-                    <Grid item xs={12} style={{marginTop:'-2%'}}>
+                    <Grid item xs={12} style={{marginTop:'-4%'}}>
                         <MovieRatings watchlistItem={watchlistItem} updateWatchlist={updateWatchlist}/>
                     </Grid>
                     {watchlistItem.watched ? MovieComment : MovieDescription}
                 </Grid>
             </Grid>
-        </Grid>
+            <Grid item xs={1}/>
+            </Grid>
     );
 }
