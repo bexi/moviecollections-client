@@ -1,41 +1,20 @@
 # MovieCollections Client
 App to collect which movies/series that you have seen and want to see.
+Auth with AWS Cognito, backend with serverless and AWS lambda. Frontend (this repo) with react and material design. 
 
-## Features 
-* Login / Signup (AWS Cognito)
-    - Login
-    - Signup with email verification
-    - Resend verification code 
-    - User feedback when loggin in / signup 
-    - TODO: forgot password 
-    
-* Watchlist 
-    - V1 layout (movie cards) 
-    - Connect to imdb data 
-    - Add movie (from Movie Search)
-    - Delete movie
-    - TODO: Update movie 
-    - TODO: View layout switch (list and cards)
-    - TODO Think about UX - should movies/series be seperated or not
-           (Switch for showing if a movie is watched or not?)
-    - TODO: User feedback when loading 
-           
-* Movie Search
-    - Search with dummy data 
-    - Connect to imdb data base 
-    - Create custom dropdown menu with movie info 
-    - TODO: Dropdown menu - listen to click outside menu 
-    - TODO: User feedback when loading 
+## TODO / Features 
+* Forgot password 
+* Think about UX - should movies/series be seperated or not
+* Fix mobile view 
+* User feedback when loading movies the first time 
+* Save user settings / user settings page 
+* Create specific lists with movies/series 
+* Add friends and share lists
 
-* General App
-    - Navigation bar 
-    - Setup connection to Lambda/ApiGateway so requests can be done 
-    - TODO: Add tests
-    - TODO: Make the app more mobile friendly
-
-* CI/CD 
+* Deployment 
+    - Caching 
     - Launch to aws s3 bucket with correct route 53 settings
-    - TODO: Use Circle CI (or similar) to push the build to the s3 bucket 
+    - Use Circle CI (or similar) to push the build to the s3 bucket 
 
 
 ## Available Scripts
