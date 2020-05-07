@@ -29,7 +29,11 @@ export default (props) => {
   const [showListView, setShowListView] = useState(true);
 
   // TODO: Switch for showing watched/not watched movies
-  const [watchedSwitched, setWatchedSwitch] = useState(false);
+  const [watchedSwitched, setWatchedSwitch] = useState({
+    watchlist:false,
+    watched: false,
+    all: true
+  });
 
   const classes = useStyles();
 
@@ -54,8 +58,9 @@ export default (props) => {
 
   const renderWatchlist = () => {
     const items = watchlistItems.filter((item) => {
-      if(!watchedSwitched) return (item.watched == watchedSwitched || item.watched == null);
-      else return item.watched==watchedSwitched;
+      if(watchedSwitched.all) return true;
+      if(watchedSwitched.watched) return item.watched==watchedSwitched.watched;
+      else return (item.watched == watchedSwitched || item.watched == null);
     })
 
     return showListView ?
@@ -76,6 +81,8 @@ export default (props) => {
           {title}
         </Typography>)
   }
+
+  console.log(watchedSwitched);
 
   // TODO: Loader
   const MainContent = (
