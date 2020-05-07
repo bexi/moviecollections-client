@@ -75,7 +75,10 @@ export default (props) => {
   }
 
   const renderTitle = () => {
-    let title = watchedSwitched ? 'Watched Movies' : 'Watchlist';
+    let title;
+    if(watchedSwitched.watched) title = 'Watched Movies';
+    if(watchedSwitched.watchlist) title = 'Watchlist';
+    if(watchedSwitched.all) title = 'Your Movies';
     return(
         <Typography component="h1" variant="h5" style={{textAlign:'center', paddingTop:'2%'}}>
           {title}
