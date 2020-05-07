@@ -3,15 +3,19 @@ App to collect which movies/series that you have seen and want to see.
 Auth with AWS Cognito, backend with serverless and AWS lambda. Frontend (this repo) with react and material design. 
 
 ## TODO / Features 
-* Forgot password 
 * Think about UX - should movies/series be seperated or not
 * Fix mobile view 
 * User feedback when loading movies the first time 
+* User feedback when there is no movie match 
+* Filter and search on different movie categories 
+* Forgot password 
 * Save user settings / user settings page 
 * Create specific lists with movies/series 
 * Add friends and share lists
+* What streaming site can you view this movie 
 
 * Deployment 
+    - Https Certificate 
     - Caching 
     - Launch to aws s3 bucket with correct route 53 settings
     - Use Circle CI (or similar) to push the build to the s3 bucket 

@@ -119,6 +119,7 @@ const SearchWatchlistItem = ({ updateWatchlist }) => {
             </Box>}
         </Box>
     );
+    console.log(setSearchResults);
 
     return (
         <>

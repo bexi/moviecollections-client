@@ -51,7 +51,6 @@ export default function WatchlistFilters({showListView, setShowListView, watched
                                 onChange={handleChange}
                                 name="checkedA"
                                 inputProps={{ 'aria-label': 'secondary checkbox' }}
-                                disabled={watchedSwitch.all}
                             />
                         </Grid>
                         <Grid item>Watched</Grid>

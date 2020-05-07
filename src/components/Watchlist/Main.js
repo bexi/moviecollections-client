@@ -30,7 +30,7 @@ export default (props) => {
 
   // TODO: Switch for showing watched/not watched movies
   const [watchedSwitched, setWatchedSwitch] = useState({
-    watchlist:false,
+    watchlist:true,
     watched: false,
     all: true
   });
@@ -82,15 +82,13 @@ export default (props) => {
         </Typography>)
   }
 
-  console.log(watchedSwitched);
-
   // TODO: Loader
   const MainContent = (
     <Container component="main" maxWidth="md">
       <CssBaseline />
       {renderTitle()}
       <WatchlistFilters showListView={showListView} setShowListView={setShowListView} watchedSwitch={watchedSwitched} setWatchedSwitch={setWatchedSwitch}/>
-      {!watchedSwitched && <SearchWatchlistItem updateWatchlist={updateWatchlist} />}
+      {(watchedSwitched.all || watchedSwitched.watchlist) && <SearchWatchlistItem updateWatchlist={updateWatchlist} />}
       <div className={classes.paper}>
         {renderWatchlist()}
       </div>
