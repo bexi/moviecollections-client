@@ -7,6 +7,7 @@ import Rating from '@material-ui/lab/Rating';
 import StarIcon from '@material-ui/icons/Star';
 import Typography from "@material-ui/core/Typography";
 import {API_PUT} from "../../utils/api-utils";
+import Checkbox from "@material-ui/core/Checkbox";
 
 export default function RatingPopOver({ watchlistItem, fetchedRating, updateWatchlist}) {
     const [anchorEl, setAnchorEl] = React.useState( null);
@@ -25,8 +26,8 @@ export default function RatingPopOver({ watchlistItem, fetchedRating, updateWatc
     return (
         <div>
             <IconButton aria-describedby={'rating-button'} onClick={handleClick}>
-                <Typography variant="body1"  style={{display:'inline'}}>{rating ? rating : 'Rate'}</Typography>
-                {rating ? <StarIcon /> : <StarBorderIcon/>}
+                <Typography variant="body1"  style={{display:'inline'}} color="secondary">{rating ? rating : 'Rate'}</Typography>
+                {rating ? <StarIcon color="secondary"/> : <StarBorderIcon color="secondary"/>}
             </IconButton>
             <Popover
                 id={open ? 'rating-popover' : undefined}
