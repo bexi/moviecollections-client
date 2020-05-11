@@ -11,7 +11,7 @@ import WatchlistList from './List/WatchlistList';
 import WatchlistFilters from "./WatchlistFilters";
 import Typography from "@material-ui/core/Typography";
 import {useWatchlistContext} from "./WatchlistContext";
-import {updateWatchlist} from "./updateWatchlist";
+import {updateWatchlist} from "./utils";
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -43,16 +43,7 @@ export default (props) => {
 
   // TOOD - grid refactor
   const renderWatchlist = () => {
-    return <WatchlistList />;
-    /*showListView ?
-        <WatchlistList
-          watchlistItems={items}
-          updateWatchlist={updateWatchlist}
-        /> :
-        <WatchlistGrid
-            watchlistItems={items}
-            updateWatchlist={updateWatchlist}
-        />;*/
+    return( showListView ? <WatchlistList/> : <WatchlistGrid/>);
   }
 
   const renderTitle = () => {

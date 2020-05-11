@@ -6,7 +6,7 @@ import Typography from "@material-ui/core/Typography";
 
 import MovieRow from './MovieRow'
 import {useWatchlistContext} from "../WatchlistContext";
-import {updateWatchlist} from "../updateWatchlist";
+import {updateWatchlist, filterWatchlist} from "../utils";
 
 const useStyles = makeStyles((theme) => ({
     tableRow: {
@@ -24,13 +24,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default () => {
     const [{ watchlist, watchedSwitched }, dispatch] = useWatchlistContext();
-
-    const filteredWatchlist = watchlist.filter((item) => {
-      if(watchedSwitched.all) return true;
-      if(watchedSwitched.watched) return item.watched==watchedSwitched.watched;
-      else return (item.watched == watchedSwitched || item.watched == null);
-    })
-
+    const filteredWatchlist = filterWatchlist(watchlist, watchedSwitched);
     const classes = useStyles();
 
     const NoItems = (
