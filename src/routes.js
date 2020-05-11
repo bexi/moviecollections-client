@@ -7,6 +7,7 @@ import SignupConfirmation from './components/VerifyEmail/SignupConfirmation';
 import Main from './components/Watchlist/Main';
 import Browse from './components/Browse';
 import AppliedRoute from "./components/AppliedRoute";
+import WatchlistContextWrapper from "./components/Watchlist/WatchlistContextWrapper";
 
 function Routes(props) {
     console.log('router props', props);
@@ -18,7 +19,7 @@ function Routes(props) {
         <Route exact path="/signup" render={(props) => <Signup {...props} auth={auth}/>}/>
         <Route exact path="/signup/verify" render={(props) => <SignupConfirmation {...props} auth={auth}/>}/>
         <Route exact path="/browse" render={(props) => <Browse {...props} auth={auth}/>}/>
-        <Route exact path="/" render={(props) => <Main {...props} auth={auth}/>} />
+        <Route exact path="/" render={(props) => <WatchlistContextWrapper {...props} auth={auth}/>} />
         <Route component={() => (<div>404 not found</div>)} />
       </Switch>
     </Router>

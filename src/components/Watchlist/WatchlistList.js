@@ -5,6 +5,8 @@ import { makeStyles } from '@material-ui/core/styles';
 import Typography from "@material-ui/core/Typography";
 
 import MovieRow from './MovieRow'
+import {useWatchlistContext} from "./WatchlistContext";
+import {updateWatchlist} from "./updateWatchlist";
 
 const useStyles = makeStyles((theme) => ({
     tableRow: {
@@ -20,7 +22,15 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-export default ({watchlistItems, updateWatchlist }) => {
+export default () => {
+    const [{ watchlist, watchedSwitched }, dispatch] = useWatchlistContext();
+
+    const filteredWatchlist = watchlist.filter((item) => {
+      if(watchedSwitched.all) return true;
+      if(watchedSwitched.watched) return item.watched==watchedSwitched.watched;
+      else return (item.watched == watchedSwitched || item.watched == null);
+    })
+
     const classes = useStyles();
 
     const NoItems = (
@@ -30,18 +40,18 @@ export default ({watchlistItems, updateWatchlist }) => {
             </Typography>
         </Grid>);
 
-    const CardGrid = (watchlistItems.map((item, i) => (
+    const CardGrid = (filteredWatchlist.map((item, i) => (
         <Grid item xs={12} className={classes.tableRow} key={i}>
             <MovieRow
                 watchlistItem={item}
-                updateWatchlist={updateWatchlist}
+                updateWatchlist={() => updateWatchlist(dispatch)}
             />
         </Grid>
     )));
 
     return (
         <Grid container spacing={2}>
-            {watchlistItems.length>0 ? CardGrid : NoItems}
+            {filteredWatchlist.length>0 ? CardGrid : NoItems}
         </Grid>
     );
 }

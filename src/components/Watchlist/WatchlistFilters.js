@@ -7,6 +7,9 @@ import Typography from "@material-ui/core/Typography";
 import Switch from "@material-ui/core/Switch";
 import Checkbox from '@material-ui/core/Checkbox';
 
+import {useWatchlistContext} from "./WatchlistContext";
+import { GET_WATCHLIST, SET_WATCHED_SWITCH} from "./actions";
+
 const useStyles = makeStyles((theme) => ({
     filterView: {
         marginTop: theme.spacing(2),
@@ -18,22 +21,30 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-export default function WatchlistFilters({showListView, setShowListView, watchedSwitch, setWatchedSwitch}) {
+export default function WatchlistFilters({showListView, setShowListView}) {
+    const [{watchedSwitched}, dispatch] = useWatchlistContext();
+
     const classes = useStyles();
 
     const handleChange = (event) => {
-        setWatchedSwitch({
-            watchlist: !event.target.checked,
-            watched: event.target.checked,
-            all: false,
+        dispatch({
+            type: SET_WATCHED_SWITCH,
+            watchedSwitched: {
+                watchlist: !event.target.checked,
+                watched: event.target.checked,
+                all: false,
+            }
         });
     };
 
     const setShowAll = (checked) => {
-        setWatchedSwitch({
-            watchlist: watchedSwitch.watchlist,
-            watched: watchedSwitch.watched,
-            all: checked,
+        dispatch({
+            type: SET_WATCHED_SWITCH,
+            watchedSwitched: {
+                watchlist: watchedSwitched.watchlist,
+                watched: watchedSwitched.watched,
+                all: checked,
+            }
         });
     }
 
@@ -47,7 +58,7 @@ export default function WatchlistFilters({showListView, setShowListView, watched
                         <Grid item>Watchlist</Grid>
                         <Grid item>
                             <Switch
-                                checked={watchedSwitch.watched}
+                                checked={watchedSwitched.watched}
                                 onChange={handleChange}
                                 name="checkedA"
                                 inputProps={{ 'aria-label': 'secondary checkbox' }}
@@ -63,7 +74,7 @@ export default function WatchlistFilters({showListView, setShowListView, watched
                         <Typography component="div">
                             <Checkbox
                                 color="secondary"
-                                checked={watchedSwitch.all}
+                                checked={watchedSwitched.all}
                                 onChange={(e) => setShowAll(e.target.checked)}
                             />
                             Show All

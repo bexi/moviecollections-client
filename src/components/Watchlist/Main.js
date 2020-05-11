@@ -5,12 +5,13 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 
-import {API_GET} from '../../utils/api-utils'
 import WatchlistGrid from './WatchlistGrid';
 import SearchWatchlistItem from './SearchWatchlistItem';
 import WatchlistList from './WatchlistList';
 import WatchlistFilters from "./WatchlistFilters";
 import Typography from "@material-ui/core/Typography";
+import {WatchlistContextProvider, useWatchlistContext} from "./WatchlistContext";
+import {updateWatchlist} from "./updateWatchlist";
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -24,46 +25,26 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default (props) => {
-  const [watchlistItems, setWatchlistItems] = useState([]);
   const [initialLoad, setInitialLoad] = useState(true);
   const [showListView, setShowListView] = useState(true);
-
-  // TODO: Switch for showing watched/not watched movies
-  const [watchedSwitched, setWatchedSwitch] = useState({
-    watchlist:true,
-    watched: false,
-    all: true
-  });
+  const [{ watchlist, watchedSwitched }, dispatch] = useWatchlistContext();
 
   const classes = useStyles();
 
   useEffect(() => {
     const onLoad = async() => {
       if (!props.auth.isAuthenticated) return;
-      await updateWatchlist();
+      await updateWatchlist(dispatch);
       setInitialLoad(false);
     }
     onLoad();
+
   }, [props.auth.isAuthenticated]);
 
-  const updateWatchlist = async() => {
-    try {
-      const items = await API_GET('/usermovies');
-      setWatchlistItems(items);
-    } catch (e) {
-      // TODO: fix error message for user
-      alert(e);
-    }
-  }
-
+  // TOOD - grid refactor
   const renderWatchlist = () => {
-    const items = watchlistItems.filter((item) => {
-      if(watchedSwitched.all) return true;
-      if(watchedSwitched.watched) return item.watched==watchedSwitched.watched;
-      else return (item.watched == watchedSwitched || item.watched == null);
-    })
-
-    return showListView ?
+    return <WatchlistList />;
+    /*showListView ?
         <WatchlistList
           watchlistItems={items}
           updateWatchlist={updateWatchlist}
@@ -71,7 +52,7 @@ export default (props) => {
         <WatchlistGrid
             watchlistItems={items}
             updateWatchlist={updateWatchlist}
-        />;
+        />;*/
   }
 
   const renderTitle = () => {
@@ -87,15 +68,15 @@ export default (props) => {
 
   // TODO: Loader
   const MainContent = (
-    <Container component="main" maxWidth="md">
-      <CssBaseline />
-      {renderTitle()}
-      <WatchlistFilters showListView={showListView} setShowListView={setShowListView} watchedSwitch={watchedSwitched} setWatchedSwitch={setWatchedSwitch}/>
-      {(watchedSwitched.all || watchedSwitched.watchlist) && <SearchWatchlistItem updateWatchlist={updateWatchlist} />}
-      <div className={classes.paper}>
-        {renderWatchlist()}
-      </div>
-    </Container>
+        <Container component="main" maxWidth="md">
+          <CssBaseline />
+          {renderTitle()}
+          <WatchlistFilters showListView={showListView} setShowListView={setShowListView}/>
+          {(watchedSwitched.all || watchedSwitched.watchlist) && <SearchWatchlistItem updateWatchlist={() => updateWatchlist(dispatch)} />}
+          <div className={classes.paper}>
+            {renderWatchlist()}
+          </div>
+        </Container>
   );
   return ( props.auth.isAuthenticated ? MainContent : <Redirect to='/login'/>);
 }

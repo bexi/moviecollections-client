@@ -53,14 +53,12 @@ export default function MediaCard({ watchlistItem, updateWatchlist }) {
         </Grid>
     );
 
-    // style={{paddingRight:'10%', paddingTop:'3%'}}
     const MovieComment = (
         <Grid item xs={12} >
             <Note watchlistItem={watchlistItem} updateWatchlist={updateWatchlist}/>
         </Grid>
     );
 
-    // style={{paddingRight:'10%'}}
     const MovieDescription = (
         <Grid item xs={12} className={classes.movie_description_note}>
             <p>{watchlistItem.description}</p>
@@ -80,6 +78,6 @@ export default function MediaCard({ watchlistItem, updateWatchlist }) {
                 </Grid>
             </Grid>
             <Grid item xs={1}/>
-            </Grid>
+        </Grid>
     );
 }
