@@ -8,9 +8,9 @@ import CardMedia from '@material-ui/core/CardMedia';
 import Typography from '@material-ui/core/Typography';
 import CardHeader from '@material-ui/core/CardHeader';
 
-import MovieRatings from "./MovieRatings";
-import MovieActionButtons from "./MovieActionButtons";
-import Note from "./Note";
+import MovieRatings from "../WatchlistComponents/MovieRatings";
+import MovieActionButtons from "../WatchlistComponents/MovieActionButtons";
+import Note from "../WatchlistComponents/Note";
 
 const useStyles = makeStyles({
   root: {

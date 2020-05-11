@@ -5,8 +5,8 @@ import { makeStyles } from '@material-ui/core/styles';
 import Typography from "@material-ui/core/Typography";
 
 import MovieRow from './MovieRow'
-import {useWatchlistContext} from "./WatchlistContext";
-import {updateWatchlist} from "./updateWatchlist";
+import {useWatchlistContext} from "../WatchlistContext";
+import {updateWatchlist} from "../updateWatchlist";
 
 const useStyles = makeStyles((theme) => ({
     tableRow: {

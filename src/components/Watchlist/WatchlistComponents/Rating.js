@@ -6,8 +6,7 @@ import Box from '@material-ui/core/Box';
 import Rating from '@material-ui/lab/Rating';
 import StarIcon from '@material-ui/icons/Star';
 import Typography from "@material-ui/core/Typography";
-import {API_PUT} from "../../utils/api-utils";
-import Checkbox from "@material-ui/core/Checkbox";
+import {API_PUT} from "../../../utils/api-utils";
 
 export default function RatingPopOver({ watchlistItem, fetchedRating, updateWatchlist}) {
     const [anchorEl, setAnchorEl] = React.useState( null);

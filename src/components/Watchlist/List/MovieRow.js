@@ -3,9 +3,9 @@ import { makeStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import Grid from "@material-ui/core/Grid";
 
-import Note from "./Note";
-import MovieRatings from "./MovieRatings";
-import MovieActionButtons from "./MovieActionButtons";
+import Note from "../WatchlistComponents/Note";
+import MovieRatings from "../WatchlistComponents/MovieRatings";
+import MovieActionButtons from "../WatchlistComponents/MovieActionButtons";
 
 const useStyles = makeStyles({
     movieRow: {

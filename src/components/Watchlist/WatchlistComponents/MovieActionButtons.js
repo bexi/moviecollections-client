@@ -4,7 +4,7 @@ import CheckBoxOutlineBlankIcon from "@material-ui/icons/CheckBoxOutlineBlank";
 import React from "react";
 import Grid from "@material-ui/core/Grid";
 
-import {API_PUT} from "../../utils/api-utils";
+import {API_PUT} from "../../../utils/api-utils";
 import DeleteMovieIcon from "./DeleteMovieIcon";
 
 export default function MovieActionButtons({watchlistItem, updateWatchlist}){

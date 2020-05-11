@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {API_PUT} from "../../utils/api-utils";
+import {API_PUT} from "../../../utils/api-utils";
 import TextField from "@material-ui/core/TextField";
 import ClickAwayListener from '@material-ui/core/ClickAwayListener';
 

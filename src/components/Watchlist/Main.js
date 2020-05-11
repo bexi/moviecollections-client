@@ -5,12 +5,12 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 
-import WatchlistGrid from './WatchlistGrid';
+import WatchlistGrid from './Grid/WatchlistGrid';
 import SearchWatchlistItem from './SearchWatchlistItem';
-import WatchlistList from './WatchlistList';
+import WatchlistList from './List/WatchlistList';
 import WatchlistFilters from "./WatchlistFilters";
 import Typography from "@material-ui/core/Typography";
-import {WatchlistContextProvider, useWatchlistContext} from "./WatchlistContext";
+import {useWatchlistContext} from "./WatchlistContext";
 import {updateWatchlist} from "./updateWatchlist";
 
 const useStyles = makeStyles((theme) => ({
